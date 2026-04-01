@@ -59,4 +59,4 @@ class TestExample(unittest.TestCase):  # Your test class is a subclass of unitte
 
 
 if __name__ == '__main__':
-    unittest.main
+    unittest.main()
