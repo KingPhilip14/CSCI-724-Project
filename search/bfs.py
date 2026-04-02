@@ -1,14 +1,22 @@
 # import pygame to use the Vector2 class
 from pygame import Vector2
+<<<<<<< HEAD
 from collections import deque
 import typing 
 class BFSPathfinder:
     
     def __init__(self, board_size: int):
+=======
+
+class BFSPathfinder:
+    
+    def __init__(self, board_size):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Inputs:
                - The Board Size
         """
+<<<<<<< HEAD
         self.board_size = board_size
         
     def is_reverse_move(self, start: tuple[int, int], neighbor: tuple[int, int], current_direction: Vector2) -> bool:
@@ -22,6 +30,11 @@ class BFSPathfinder:
         return next_direction == reverse_direction
         
     def find_next_move(self, head: Vector2, fruit: Vector2, body: list[Vector2], current_direction: Vector2) -> Vector2:
+=======
+        pass
+        
+    def find_next_move(self, head, fruit, body, current_direction):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Inputs:
                - head: represents the head of the snake.
@@ -32,6 +45,7 @@ class BFSPathfinder:
         Output:
                - return the current_direction
         """
+<<<<<<< HEAD
         start = self.vector_to_tuple(head)
         goal = self.vector_to_tuple(fruit)
         blocked = {self.vector_to_tuple(block) for block in body[1:]}
@@ -68,6 +82,11 @@ class BFSPathfinder:
     
     
     def get_neighbors(self, cell: tuple[int, int]) -> list[tuple[int, int]]:
+=======
+        pass
+    
+    def get_neighbors(self, cell):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Input:
              - Cell: Represents a a grid where the sbnake can move or the other pieces
@@ -75,6 +94,7 @@ class BFSPathfinder:
         Output:
              - Returns a list of the directions (x, y - 1),  # up (x, y + 1),  # down (x - 1, y),  # left, (x + 1, y)
         """
+<<<<<<< HEAD
         x , y = cell
         
         # next return the directions
@@ -87,6 +107,12 @@ class BFSPathfinder:
         
     
     def is_valid_cell(self, cell: tuple[int, int], blocked: set[tuple[int, int]]) -> bool:
+=======
+        pass
+        
+    
+    def is_valid_cell(self, cell, blocked):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Input:
               - Cell: Represents a a grid where the sbnake can move or the other pieces
@@ -95,6 +121,7 @@ class BFSPathfinder:
         Output: 
               - returns if the snake if is inside the board and the next cell is not blocked.
         """
+<<<<<<< HEAD
         x, y = cell
         
         inside_board = 0<= x < self.board_size and 0 <= y < self.board_size
@@ -103,12 +130,18 @@ class BFSPathfinder:
         return inside_board and not_blocked
     
     def rebuild_path(self, parent: dict[tuple[int, int], tuple[int, int]], start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+=======
+        pass 
+    
+    def rebuild_path(self, parent, start, goal):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Input:
               - parent:
               - start:
               - goal:
         """
+<<<<<<< HEAD
         path: list[tuple[int, int]] = [goal]
         current: tuple[int, int] = goal 
         
@@ -120,11 +153,17 @@ class BFSPathfinder:
         return path
     
     def cell_to_direction(self, head: tuple[int, int], next_cell: tuple[int, int]) -> Vector2:
+=======
+        pass
+    
+    def cell_to_direction(self, head, next_cell):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Input:
               - head:
               - next_cell:
         """
+<<<<<<< HEAD
         head_x, head_y = head 
         next_x, next_y = next_cell 
         
@@ -140,11 +179,20 @@ class BFSPathfinder:
         return Vector2(0,0)
     
     def vector_to_tuple(self, position: Vector2) -> tuple[int, int]:
+=======
+        pass 
+    
+    def vector_to_tuple(self, position):
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         """
         Input:
               - position:
         """
+<<<<<<< HEAD
         return int(position.x), int(position.y)
     
+=======
+        pass
+>>>>>>> 949705d (Created starter files for the BFS and Djikstra Algorithm with BFS starter code)
         
         
