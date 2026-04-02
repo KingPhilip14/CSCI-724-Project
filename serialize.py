@@ -36,7 +36,7 @@ class Serialize:
                                       f'{self.curr_mode_name}_trial_{self.trial_num}.json')
 
         # write the data to the JSON file in the specified path
-        with open(f'./data/{self.curr_mode.name.lower()}/data.json', 'w') as f:
+        with open(data_path, 'w') as f:
             json.dump(data, f)
             f.close()
 
