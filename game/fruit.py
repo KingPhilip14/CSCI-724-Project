@@ -3,7 +3,7 @@ import random
 import pygame
 from pygame import Vector2
 
-from config import cell_size, cell_number, screen, apple_img
+from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 
 
 class Fruit:
@@ -14,10 +14,10 @@ class Fruit:
         self.pos: Vector2 = Vector2(self.x, self.y)
 
     def draw_fruit(self):
-        fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
-        screen.blit(apple_img, fruit_rect)
+        fruit_rect = pygame.Rect(int(self.pos.x * CELL_SIZE), int(self.pos.y * CELL_SIZE), CELL_SIZE, CELL_SIZE)
+        SCREEN.blit(APPLE_IMG, fruit_rect)
 
     def randomize(self):
-        self.x = random.randint(0, cell_number - 1)
-        self.y = random.randint(0, cell_number - 1)
+        self.x = random.randint(0, CELL_NUMBER - 1)
+        self.y = random.randint(0, CELL_NUMBER - 1)
         self.pos = Vector2(self.x, self.y)

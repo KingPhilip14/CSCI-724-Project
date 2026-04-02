@@ -1,6 +1,6 @@
 import pygame
 
-from config import cell_size, cell_number, screen, apple_img
+from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 from game.fruit import Fruit
 from game.snake import Snake
 
@@ -32,7 +32,7 @@ class Engine:
                 self.fruit.randomize()
 
     def check_fail(self):
-        if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
+        if not 0 <= self.snake.body[0].x < CELL_NUMBER or not 0 <= self.snake.body[0].y < CELL_NUMBER:
             self.game_over()
 
         for block in self.snake.body[1:]:
@@ -44,17 +44,17 @@ class Engine:
 
     def draw_grass(self):
         grass_color = (167, 209, 61)
-        for row in range(cell_number):
+        for row in range(CELL_NUMBER):
             if row % 2 == 0:
-                for col in range(cell_number):
+                for col in range(CELL_NUMBER):
                     if col % 2 == 0:
-                        grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rect)
+                        grass_rect = pygame.Rect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                        pygame.draw.rect(SCREEN, grass_color, grass_rect)
             else:
-                for col in range(cell_number):
+                for col in range(CELL_NUMBER):
                     if col % 2 != 0:
-                        grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rect)
+                        grass_rect = pygame.Rect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                        pygame.draw.rect(SCREEN, grass_color, grass_rect)
 
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
@@ -62,14 +62,14 @@ class Engine:
         # loads the font
         game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
-        score_x = int(cell_size * cell_number - 60)
-        score_y = int(cell_size * cell_number - 40)
+        score_x = int(CELL_SIZE * CELL_NUMBER - 60)
+        score_y = int(CELL_SIZE * CELL_NUMBER - 40)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
-        apple_rect = apple_img.get_rect(midright=(score_rect.left, score_rect.centery))
+        apple_rect = APPLE_IMG.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
                               apple_rect.height)
 
-        pygame.draw.rect(screen, (167, 209, 61), bg_rect)
-        screen.blit(score_surface, score_rect)
-        screen.blit(apple_img, apple_rect)
-        pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
+        pygame.draw.rect(SCREEN, (167, 209, 61), bg_rect)
+        SCREEN.blit(score_surface, score_rect)
+        SCREEN.blit(APPLE_IMG, apple_rect)
+        pygame.draw.rect(SCREEN, (56, 74, 12), bg_rect, 2)
