@@ -1,9 +1,12 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import sys
 
 import pygame
 from pygame.math import Vector2
 
-from config import screen, clock
+from config import SCREEN, CLOCK
 from game.engine import Engine
 
 if __name__ == '__main__':
@@ -36,9 +39,9 @@ if __name__ == '__main__':
                     if engine.snake.direction.x != 1:
                         engine.snake.direction = Vector2(-1, 0)
 
-        screen.fill((175, 215, 70))
+        SCREEN.fill((175, 215, 70))
         engine.draw_elements()
         pygame.display.update()
 
         # provides 60 FPS (or the best it can)
-        clock.tick(60)
+        CLOCK.tick(60)
