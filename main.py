@@ -22,19 +22,19 @@ if __name__ == '__main__':
                 sys.exit()
             if event.type == SCREEN_UPDATE:
                 engine.update()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    if engine.snake.direction.y != 1:
-                        engine.snake.direction = Vector2(0, -1)
-                if event.key == pygame.K_RIGHT:
-                    if engine.snake.direction.x != -1:
-                        engine.snake.direction = Vector2(1, 0)
-                if event.key == pygame.K_DOWN:
-                    if engine.snake.direction.y != -1:
-                        engine.snake.direction = Vector2(0, 1)
-                if event.key == pygame.K_LEFT:
-                    if engine.snake.direction.x != 1:
-                        engine.snake.direction = Vector2(-1, 0)
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_UP:
+            #         if engine.snake.direction.y != 1:
+            #             engine.snake.direction = Vector2(0, -1)
+            #     if event.key == pygame.K_RIGHT:
+            #         if engine.snake.direction.x != -1:
+            #             engine.snake.direction = Vector2(1, 0)
+            #     if event.key == pygame.K_DOWN:
+            #         if engine.snake.direction.y != -1:
+            #             engine.snake.direction = Vector2(0, 1)
+            #     if event.key == pygame.K_LEFT:
+            #         if engine.snake.direction.x != 1:
+            #             engine.snake.direction = Vector2(-1, 0)
 
         screen.fill((175, 215, 70))
         engine.draw_elements()
