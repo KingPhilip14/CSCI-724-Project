@@ -9,8 +9,15 @@ class TestUtils(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        # not needed for now, but placing it here in case it's needed in the future
-        pass
+        self.curr_mode_name = 'human'
+        self.trial_num = 1
+
+    def test_data_file_path(self):
+        """
+        Tests that the data_file_path function returns the correct path by using the given parameters.
+        """
+        path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
+        self.assertEqual(path, os.path.join('data', 'human', 'human_trial_1.json'))
 
     @patch('utils.os.mkdir')
     @patch('utils.os.path.exists')

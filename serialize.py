@@ -1,8 +1,11 @@
 import os
+from typing import Any
+
 from enums import SimMode
 from utils import create_dirs
 import json
-from config import TOTAL_TRIALS
+from utils import get_data_file_path
+import base64
 
 
 class Serialize:
@@ -10,7 +13,7 @@ class Serialize:
         self.curr_mode = curr_mode
         self.curr_mode_name: str = curr_mode.name.lower()
         self.trial_num = 1
-        self.base_data_dir: str = './data'
+        self.data_file_path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
 
     def serialize(self, score: int, turns: int, mem_space: bytes, exec_time: float) -> None:
         """
@@ -27,19 +30,33 @@ class Serialize:
         data: dict = {
             'score': score,
             'turns': turns,
-            'mem_space': mem_space,
+            'mem_space': base64.b64encode(mem_space).decode('utf-8'),
             'exec_time': exec_time,
         }
 
-        # path example: ./data/bfs/bfs_trial_1.json
-        data_path: str = os.path.join(self.base_data_dir, self.curr_mode_name,
-                                      f'{self.curr_mode_name}_trial_{self.trial_num}.json')
-
         # write the data to the JSON file in the specified path
-        with open(data_path, 'w') as f:
+        # example: ./data/bfs/bfs_trial_1.json
+        with open(self.data_file_path, 'w') as f:
             json.dump(data, f)
             f.close()
 
-        # if the Serialize object's trial number is not the total trial number, increment it for the next loop
-        if self.trial_num != TOTAL_TRIALS:
-            self.trial_num += 1
+    def get_json_data(self) -> dict[str, Any]:
+        """
+        Reads the data file and returns a dictionary with all the data points collected. Raises an error if the
+        file does not exist.
+        :return: A dict with all the data points
+        """
+        path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
+
+        if not os.path.exists(path):
+            raise FileNotFoundError(f'File in path "{path}" does not exist')
+
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        return {
+            'score': data['score'],
+            'turns': data['turns'],
+            'mem_space': base64.b64decode(data['mem_space']),
+            'exec_time': data['exec_time'],
+        }

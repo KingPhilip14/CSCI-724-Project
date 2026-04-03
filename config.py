@@ -1,3 +1,6 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame
 from enums import SimMode
 
@@ -14,7 +17,7 @@ SCREEN = (pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_S
 CLOCK = pygame.time.Clock()
 
 # loads the apple image
-APPLE_IMG = pygame.image.load('Graphics/apple.png').convert_alpha()
+APPLE_IMG = pygame.image.load('graphics/apple.png').convert_alpha()
 
 # a list of strings based on the SimMode enums to determine
 SIM_MODES: list[str] = [SimMode.BFS.name.lower(), SimMode.GBFS.name.lower(), SimMode.DIJK.name.lower(),

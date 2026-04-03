@@ -1,3 +1,6 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame
 
 from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
@@ -60,7 +63,7 @@ class Engine:
         score_text = str(len(self.snake.body) - 3)
 
         # loads the font
-        game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
+        game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(CELL_SIZE * CELL_NUMBER - 60)
         score_y = int(CELL_SIZE * CELL_NUMBER - 40)
