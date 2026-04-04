@@ -4,6 +4,7 @@ from config import cell_size, cell_number, screen, apple_img
 from game.fruit import Fruit
 from game.snake import Snake
 from search.bfs import BFSPathfinder
+from search.dijkstra import DijkstraPathfinder
 
 
 class Engine:
@@ -11,7 +12,9 @@ class Engine:
         self.snake = Snake()
         self.fruit = Fruit()
         # initialize the pathfinder BFS 
-        self.pathfinder = BFSPathfinder(cell_number)
+        # self.pathfinder = BFSPathfinder(cell_number)
+        # initialize Dijkstra pathfinder
+        self.pathfinder = DijkstraPathfinder(cell_number)
 
     def update(self):
         # create the next move
