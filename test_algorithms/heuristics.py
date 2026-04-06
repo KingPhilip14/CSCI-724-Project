@@ -1,4 +1,4 @@
-def manhattan(pos_h, pos_f):
+def manhattan(pos_h, pos_f) -> int:
     """
     We are using the Manhattan distance as our choice of heuristic here.
 

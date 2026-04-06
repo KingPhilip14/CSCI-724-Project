@@ -1,4 +1,5 @@
 import heapq
+
 from test_algorithms.heuristics import manhattan
 from test_algorithms.informed_helpers import get_neighbors, path_travelled
 
@@ -14,15 +15,20 @@ from test_algorithms.informed_helpers import get_neighbors, path_travelled
 # retrieve the smallest value, or here, the most promising cell at each 
 # step without extra overhead.
 
-def informed_a_star(pos_h, pos_f, body, cell_number):
+def informed_a_star(
+    pos_h: tuple,
+    pos_f: tuple,
+    body: list,
+    cell_number: int
+    ) -> list:
 
     # unexplored_frontier is a priority queue holding cells that have been 
     # discovered but not yet explored.
     # cost_so_far is a dictionary tracking the lowest known cost to reach each cell.
     # known_cell_map is a dictionary recording how we reached each cell on the grid.
-    unexplored_frontier = []
-    cost_so_far = {pos_h: 0}
-    known_cell_map = {pos_h: None}
+    unexplored_frontier: list = []
+    cost_so_far: dict = {pos_h: 0}
+    known_cell_map: dict = {pos_h: None}
 
     # manh_cost is the initial Manhattan heuristic estimate from the head to the food.
     manh_cost = manhattan(pos_h, pos_f)

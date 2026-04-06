@@ -1,4 +1,4 @@
-def path_travelled(known_cell_map, current_loc):
+def path_travelled(known_cell_map, current_loc) -> list:
     """
     The path_travelled function traces back the path taken by the snake to reach its current location.
 
@@ -14,7 +14,7 @@ def path_travelled(known_cell_map, current_loc):
     return path
 
 
-def get_neighbors(current_loc, cell_number, body):
+def get_neighbors(current_loc, cell_number, body) -> list:
     """
     The get_neighbors function checks the four possible directions of movement 
     from the current location of the head, and returns a listr of valid neighboring cells.
