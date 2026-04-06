@@ -1,7 +1,7 @@
 import pygame
 from pygame import Vector2
 
-from config import cell_size, screen
+from config import CELL_SIZE, SCREEN
 
 
 class Snake:
@@ -10,54 +10,54 @@ class Snake:
         self.direction = Vector2(0, 0)
         self.new_block = False
 
-        self.head_up = pygame.image.load('Graphics/head_up.png').convert_alpha()
-        self.head_down = pygame.image.load('Graphics/head_down.png').convert_alpha()
-        self.head_right = pygame.image.load('Graphics/head_right.png').convert_alpha()
-        self.head_left = pygame.image.load('Graphics/head_left.png').convert_alpha()
+        self.head_up = pygame.image.load('graphics/head_up.png').convert_alpha()
+        self.head_down = pygame.image.load('graphics/head_down.png').convert_alpha()
+        self.head_right = pygame.image.load('graphics/head_right.png').convert_alpha()
+        self.head_left = pygame.image.load('graphics/head_left.png').convert_alpha()
 
-        self.tail_up = pygame.image.load('Graphics/tail_up.png').convert_alpha()
-        self.tail_down = pygame.image.load('Graphics/tail_down.png').convert_alpha()
-        self.tail_right = pygame.image.load('Graphics/tail_right.png').convert_alpha()
-        self.tail_left = pygame.image.load('Graphics/tail_left.png').convert_alpha()
+        self.tail_up = pygame.image.load('graphics/tail_up.png').convert_alpha()
+        self.tail_down = pygame.image.load('graphics/tail_down.png').convert_alpha()
+        self.tail_right = pygame.image.load('graphics/tail_right.png').convert_alpha()
+        self.tail_left = pygame.image.load('graphics/tail_left.png').convert_alpha()
 
-        self.body_vertical = pygame.image.load('Graphics/body_vertical.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('Graphics/body_horizontal.png').convert_alpha()
+        self.body_vertical = pygame.image.load('graphics/body_vertical.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('graphics/body_horizontal.png').convert_alpha()
 
-        self.body_tr = pygame.image.load('Graphics/body_tr.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics/body_tl.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
-        self.crunch_sound = pygame.mixer.Sound('Sound/crunch.wav')
+        self.body_tr = pygame.image.load('graphics/body_tr.png').convert_alpha()
+        self.body_tl = pygame.image.load('graphics/body_tl.png').convert_alpha()
+        self.body_br = pygame.image.load('graphics/body_br.png').convert_alpha()
+        self.body_bl = pygame.image.load('graphics/body_bl.png').convert_alpha()
+        self.crunch_sound = pygame.mixer.Sound('sound/crunch.wav')
 
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
 
         for index, block in enumerate(self.body):
-            x_pos = int(block.x * cell_size)
-            y_pos = int(block.y * cell_size)
-            block_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
+            x_pos = int(block.x * CELL_SIZE)
+            y_pos = int(block.y * CELL_SIZE)
+            block_rect = pygame.Rect(x_pos, y_pos, CELL_SIZE, CELL_SIZE)
 
             if index == 0:
-                screen.blit(self.head, block_rect)
+                SCREEN.blit(self.head, block_rect)
             elif index == len(self.body) - 1:
-                screen.blit(self.tail, block_rect)
+                SCREEN.blit(self.tail, block_rect)
             else:
                 previous_block = self.body[index + 1] - block
                 next_block = self.body[index - 1] - block
                 if previous_block.x == next_block.x:
-                    screen.blit(self.body_vertical, block_rect)
+                    SCREEN.blit(self.body_vertical, block_rect)
                 elif previous_block.y == next_block.y:
-                    screen.blit(self.body_horizontal, block_rect)
+                    SCREEN.blit(self.body_horizontal, block_rect)
                 else:
                     if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
-                        screen.blit(self.body_tl, block_rect)
+                        SCREEN.blit(self.body_tl, block_rect)
                     elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
-                        screen.blit(self.body_bl, block_rect)
+                        SCREEN.blit(self.body_bl, block_rect)
                     elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
-                        screen.blit(self.body_tr, block_rect)
+                        SCREEN.blit(self.body_tr, block_rect)
                     elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
-                        screen.blit(self.body_br, block_rect)
+                        SCREEN.blit(self.body_br, block_rect)
 
     def update_head_graphics(self):
         head_relation = self.body[1] - self.body[0]
