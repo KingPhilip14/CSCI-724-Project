@@ -5,14 +5,14 @@ from pygame import Vector2
 
 class DijkstraPathfinder:
     
-    def __init__(self, board_size):
+    def __init__(self, board_size: int):
         """
         Inputs:
                - The Board Size
         """
         self.board_size = board_size
         
-    def is_reverse_move(self, start, neighbor, current_direction):
+    def is_reverse_move(self, start: tuple[int, int], neighbor: tuple[int, int], current_direction: Vector2) -> bool:
         move_x = neighbor[0] - start[0]
         move_y = neighbor[1] - start[1]
         
@@ -22,7 +22,8 @@ class DijkstraPathfinder:
         
         return next_direction == reverse_direction
         
-    def find_next_move(self, head, fruit, body, current_direction):
+    
+    def find_next_move(self, head: Vector2, fruit: Vector2, body: list[Vector2], current_direction: Vector2) -> Vector2:
         """
         Inputs:
                - head: represents the head of the snake.
@@ -37,10 +38,10 @@ class DijkstraPathfinder:
         goal = self.vector_to_tuple(fruit)
         blocked = {self.vector_to_tuple(block) for block in body[1:]}
         
-        heap = [(0, start)]
+        heap: list[tuple[int, tuple[int, int]]] = [(0, start)]
         distances = {start: 0}
-        parent = {}
-        found_goal = False 
+        parent: dict[tuple[int, int], int] = {}
+        found_goal: bool = False 
         
         while heap:
             cur_cost, current = heapq.heappop(heap)
@@ -76,7 +77,8 @@ class DijkstraPathfinder:
         return current_direction
     
     
-    def get_neighbors(self, cell):
+
+    def get_neighbors(self, cell: tuple[int, int]) -> list[tuple[int, int]]:
         """
         Input:
              - Cell: Represents a a grid where the sbnake can move or the other pieces
@@ -95,10 +97,11 @@ class DijkstraPathfinder:
         ]
         
     
-    def is_valid_cell(self, cell, blocked):
+
+    def is_valid_cell(self, cell: tuple[int, int], blocked: set[tuple[int, int]]) -> bool:
         """
         Input:
-              - Cell: Represents a a grid where the sbnake can move or the other pieces
+              - Cell: Represents a a grid where the snake can move or the other pieces
              like the game tiles are placed.
               - Blocked: checks if the next cell is blocked. 
         Output: 
@@ -111,15 +114,15 @@ class DijkstraPathfinder:
         
         return inside_board and not_blocked
     
-    def rebuild_path(self, parent, start, goal):
+    def rebuild_path(self, parent: dict[tuple[int, int], tuple[int, int]], start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
         """
         Input:
               - parent:
               - start:
               - goal:
         """
-        path = [goal]
-        current = goal 
+        path: list[tuple[int, int]] = [goal]
+        current: tuple[int, int] = goal 
         
         while current != start:
             current = parent[current]
@@ -128,7 +131,8 @@ class DijkstraPathfinder:
         path.reverse()
         return path
     
-    def cell_to_direction(self, head, next_cell):
+
+    def cell_to_direction(self, head: tuple[int, int], next_cell: tuple[int, int]) -> Vector2:
         """
         Input:
               - head:
@@ -148,7 +152,7 @@ class DijkstraPathfinder:
         
         return Vector2(0,0)
     
-    def vector_to_tuple(self, position):
+    def vector_to_tuple(self, position: Vector2) -> tuple[int, int]:
         """
         Input:
               - position:
