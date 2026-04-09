@@ -9,10 +9,10 @@ import base64
 
 
 class Serialize:
-    def __init__(self, curr_mode: SimMode = SimMode.HUMAN):
+    def __init__(self, curr_mode: SimMode = SimMode.HUMAN, trial_num: int = 1):
         self.curr_mode = curr_mode
         self.curr_mode_name: str = curr_mode.name.lower()
-        self.trial_num = 1
+        self.trial_num = trial_num
         self.data_file_path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
 
     def serialize(self, score: int, turns: int, mem_space: bytes, exec_time: float) -> None:
@@ -40,13 +40,14 @@ class Serialize:
             json.dump(data, f)
             f.close()
 
-    def get_json_data(self) -> dict[str, Any]:
+    def get_json_data(self, path: str | None = None) -> dict[str, Any]:
         """
-        Reads the data file and returns a dictionary with all the data points collected. Raises an error if the
-        file does not exist.
+        Takes in an optional parameter of a data file path. If the given path exists, it will be used to extract the
+        data from the JSON file. If no file path is given, the default using the current settings of object variables
+        will be used. If an invalid path is given, or if it doesn't exist, an error will be thrown.
         :return: A dict with all the data points
         """
-        path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
+        path: str = get_data_file_path(self.curr_mode_name, self.trial_num) if path is None or path == '' else path
 
         if not os.path.exists(path):
             raise FileNotFoundError(f'File in path "{path}" does not exist')
