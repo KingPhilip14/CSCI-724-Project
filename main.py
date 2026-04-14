@@ -8,15 +8,20 @@ from pygame.math import Vector2
 
 from config import SCREEN, CLOCK
 from game.engine import Engine
+from visualizer.viz_logic import start_screen_loop
 
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
 
+    # loads the font
+    font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
+
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)
 
     engine = Engine()
+    start_screen_loop()
 
     while True:
         for event in pygame.event.get():

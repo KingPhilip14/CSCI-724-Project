@@ -1,7 +1,5 @@
 import os
 
-from config import FONT
-
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from pygame import Vector2
@@ -40,7 +38,7 @@ class Text:
         self.font_size: int = font_size
 
         # Get selected font from list of fonts
-        self.__font: pygame.font.Font = FONT
+        self.__font: pygame.font.Font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         self.color: Color = color
         self.position: Vector2 = position
         self.text: str = text
@@ -114,7 +112,7 @@ class Text:
         if self.__is_init: return
 
         # Reevaluate text with new font size
-        self.__font: pygame.font.Font = FONT
+        self.__font: pygame.font.Font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         self.__text_surface: pygame.Surface = self.__font.render(self.text, True, self.color)
         self.__rect: pygame.Rect = self.__text_surface.get_rect()
         self.__rect.topleft = vector_as_tuple(self.position)

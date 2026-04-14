@@ -1,11 +1,8 @@
-import os
-
-from config import FONT, BUTTON_COLORS
 from visualizer.menu_template import *
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
-from typing import Callable, Any
+from typing import Any
 from pygame import Vector2
 from visualizer.text import Text
 
@@ -19,7 +16,18 @@ class Adapter:
     def __init__(self, screen):
         self.screen: pygame.Surface = screen
         self.populate_bytesprite: pygame.sprite.Group = pygame.sprite.Group()
-        self.menu: MenuTemplate = Basic(screen, FONT, '#000000', BUTTON_COLORS,
+
+        # different colors for the buttons in the visualizer
+        self.button_colors: ButtonColors = ButtonColors(
+            bg_color='#8C7753',  # Idle darker tan shade for the background
+            bg_color_hover='#A38E68',  # Hovered slightly lighter tan
+            bg_color_clicked='#735F41',  # Clicked darker brown-tan
+            fg_color='#000000',  # Idle black text
+            fg_color_hover='#2D2D2D',  # Hovered dark gray text
+            fg_color_clicked='#494949'  # Clicked lighter gray text
+        )
+
+        self.menu: MenuTemplate = Basic(screen, pygame.font.Font('font/PoetsenOne-Regular.ttf', 25), '#000000', self.button_colors,
                                         'A Comparative Analysis: Snake')
         self.turn_number: int = 0
         # self.turn_max: int = MAX_TICKS
@@ -101,7 +109,8 @@ class Adapter:
         :return: None
         """
         text = Text(self.screen, f'{self.turn_number} / {self.turn_max}', 48)
-        text.rect.center = vector_as_tuple(Vector2(*self.screen.get_rect().midtop)) # Vector(*self.screen.get_rect().midtop).add_y(50).as_tuple()
+        text.rect.center = vector_as_tuple(
+            Vector2(*self.screen.get_rect().midtop))  # Vector(*self.screen.get_rect().midtop).add_y(50).as_tuple()
         # text.rect.center = Vector(*self.screen.get_rect().midtop).add_y(50).as_tuple()
         text.render()
         # self.playback.playback_render()

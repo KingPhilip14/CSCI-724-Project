@@ -1,9 +1,12 @@
 import os
+
+# from visualizer.config import VizConfig
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
 
-from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG, FONT
+from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 from game.fruit import Fruit
 from game.snake import Snake
 from search.bfs import BFSPathfinder
@@ -12,8 +15,10 @@ from search.dijkstra import DijkstraPathfinder
 
 class Engine:
     def __init__(self):
+        # self.viz_config = VizConfig()
         self.snake = Snake()
         self.fruit = Fruit()
+        self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         # initialize the pathfinder BFS 
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
@@ -77,9 +82,9 @@ class Engine:
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
 
-        score_surface = FONT.render(score_text, True, (56, 74, 12))
-        score_x = int(CELL_SIZE * CELL_NUMBER - 60)
-        score_y = int(CELL_SIZE * CELL_NUMBER - 40)
+        score_surface = self.font.render(score_text, True, (56, 74, 12))
+        score_x = int(CELL_SIZE * CELL_NUMBER * 0.925)
+        score_y = int(CELL_SIZE * CELL_NUMBER * 0.9)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = APPLE_IMG.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,

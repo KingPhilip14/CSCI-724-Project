@@ -1,5 +1,7 @@
 import os
 
+from pygame.font import Font
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
@@ -31,7 +33,7 @@ class MenuTemplate:
     NOTE: The provided buttons are already made to be in the center of the screen.
     """
 
-    def __init__(self, screen: pygame.Surface, font: str, text_color: str, button_colors: ButtonColors):
+    def __init__(self, screen: pygame.Surface, font: Font, text_color: str, button_colors: ButtonColors):
         self.screen: pygame.Surface = screen
         self.font = font
         self.text_color = text_color
@@ -54,17 +56,17 @@ class MenuTemplate:
 
         # The next two variables shouldn't be type hinted. The center is a tuple of two ints (i.e., tuple[int, int])
         self.a_star_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                  Vector2(0, 150)))
+                                                                  Vector2(-300, -60)))
         self.bfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                               Vector2(25, 150)))
+                                                               Vector2(0, -60)))
         self.dijk_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(50, 150)))
+                                                                Vector2(300, -60)))
         self.gbfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(75, 150)))
-        self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                 Vector2(100, 150)))
+                                                                Vector2(-300, 110)))
         self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                               Vector2(50, 250)))
+                                                               Vector2(0, 110)))
+        self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
+                                                                 Vector2(300, 110)))
 
         self.results_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
                                                                    Vector2(0, 150)))
@@ -125,7 +127,7 @@ class Basic(MenuTemplate):
     Basic class can be used as a template for any future classes.
     """
 
-    def __init__(self, screen: pygame.Surface, font: str, text_color: str, button_colors: ButtonColors, title: str):
+    def __init__(self, screen: pygame.Surface, font: Font, text_color: str, button_colors: ButtonColors, title: str):
         super().__init__(screen, font, text_color, button_colors)
         self.title: Text = Text(screen, title, 48, color=self.text_color)
         self.title.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
