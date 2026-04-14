@@ -20,7 +20,7 @@ class TestSerialize(unittest.TestCase):
         self.turns: int = 5
 
         # a fake value for testing bytes; no actual significance or relation to the expected mem size
-        self.mem_space: bytes = bytes('a', 'utf-8')
+        self.peak_mem: bytes = bytes('a', 'utf-8')
 
         self.exec_time: float = 10.0
 
@@ -30,7 +30,7 @@ class TestSerialize(unittest.TestCase):
         get_json_data function.
         :return: None
         """
-        self.serialize.serialize(self.score, self.turns, self.mem_space, self.exec_time)
+        self.serialize.serialize(self.score, self.turns, self.peak_mem, self.exec_time)
 
         data_path: str = utils.get_data_file_path(self.serialize.curr_mode_name, self.serialize.trial_num)
 
@@ -43,7 +43,7 @@ class TestSerialize(unittest.TestCase):
 
         self.assertEqual(data['score'], self.score)
         self.assertEqual(data['turns'], self.turns)
-        self.assertEqual(data['mem_space'], self.mem_space)
+        self.assertEqual(data['peak_mem'], self.peak_mem)
         self.assertEqual(data['exec_time'], self.exec_time)
 
     def test_given_new_path(self) -> None:
@@ -54,7 +54,7 @@ class TestSerialize(unittest.TestCase):
         """
         # create human_trial_2.json
         self.serialize = Serialize(trial_num=2)
-        self.serialize.serialize(self.score + 10, self.turns + 10, self.mem_space, self.exec_time + 50)
+        self.serialize.serialize(self.score + 10, self.turns + 10, self.peak_mem, self.exec_time + 50)
         data_path: str = utils.get_data_file_path(self.serialize.curr_mode_name, self.serialize.trial_num)
 
         # test if the json file was created
@@ -62,7 +62,7 @@ class TestSerialize(unittest.TestCase):
 
         # create human_trial_3.json
         self.serialize = Serialize(trial_num=3)
-        self.serialize.serialize(self.score + 17, self.turns + 5, self.mem_space, self.exec_time + 30)
+        self.serialize.serialize(self.score + 17, self.turns + 5, self.peak_mem, self.exec_time + 30)
         data_path = utils.get_data_file_path(self.serialize.curr_mode_name, self.serialize.trial_num)
 
         # test if the json file was created
@@ -74,7 +74,7 @@ class TestSerialize(unittest.TestCase):
 
         self.assertEqual(data['score'], self.score + 17)
         self.assertEqual(data['turns'], self.turns + 5)
-        self.assertEqual(data['mem_space'], self.mem_space)
+        self.assertEqual(data['peak_mem'], self.peak_mem)
         self.assertEqual(data['exec_time'], self.exec_time + 30)
 
 

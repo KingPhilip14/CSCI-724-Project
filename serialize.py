@@ -15,12 +15,12 @@ class Serialize:
         self.trial_num = trial_num
         self.data_file_path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
 
-    def serialize(self, score: int, turns: int, mem_space: bytes, exec_time: float) -> None:
+    def serialize(self, score: int, turns: int, peak_mem: bytes, exec_time: float) -> None:
         """
         Collects all major data points needed for metric analysis and stores them as JSON files in the data directory.
         :param score: The total score gained for the current execution run.
         :param turns: The total turns it took to complete the current execution run.
-        :param mem_space: The total memory space used by the used algorithm.
+        :param peak_mem: The total memory space used by the used algorithm.
         :param exec_time: The total time it took to complete the current execution run.
         :return: None
         """
@@ -30,7 +30,7 @@ class Serialize:
         data: dict = {
             'score': score,
             'turns': turns,
-            'mem_space': base64.b64encode(mem_space).decode('utf-8'),
+            'peak_mem': base64.b64encode(peak_mem).decode('utf-8'),
             'exec_time': exec_time,
         }
 
@@ -58,6 +58,6 @@ class Serialize:
         return {
             'score': data['score'],
             'turns': data['turns'],
-            'mem_space': base64.b64decode(data['mem_space']),
+            'peak_mem': base64.b64decode(data['peak_mem']),
             'exec_time': data['exec_time'],
         }
