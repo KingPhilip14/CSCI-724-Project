@@ -3,7 +3,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
 
-from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
+from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG, FONT
 from game.fruit import Fruit
 from game.snake import Snake
 from search.bfs import BFSPathfinder
@@ -17,17 +17,17 @@ class Engine:
         # initialize the pathfinder BFS 
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
-        self.pathfinder = DijkstraPathfinder(cell_number)
+        # self.pathfinder = DijkstraPathfinder(cell_number)
 
     def update(self):
         # create the next move
-        next_move = self.pathfinder.find_next_move(
-            self.snake.body[0],
-            self.fruit.pos,
-            self.snake.body,
-            self.snake.direction
-        )
-        self.snake.direction = next_move
+        # next_move = self.pathfinder.find_next_move(
+        #     self.snake.body[0],
+        #     self.fruit.pos,
+        #     self.snake.body,
+        #     self.snake.direction
+        # )
+        # self.snake.direction = next_move
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
@@ -77,9 +77,7 @@ class Engine:
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
 
-        # loads the font
-        game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
-        score_surface = game_font.render(score_text, True, (56, 74, 12))
+        score_surface = FONT.render(score_text, True, (56, 74, 12))
         score_x = int(CELL_SIZE * CELL_NUMBER - 60)
         score_y = int(CELL_SIZE * CELL_NUMBER - 40)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
