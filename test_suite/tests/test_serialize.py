@@ -20,7 +20,7 @@ class TestSerialize(unittest.TestCase):
         self.turns: int = 5
 
         # a fake value for testing bytes; no actual significance or relation to the expected mem size
-        self.peak_mem: bytes = bytes('a', 'utf-8')
+        self.peak_mem: int = 123456789
 
         self.exec_time: float = 10.0
 
