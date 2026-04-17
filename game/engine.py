@@ -17,7 +17,7 @@ class Engine:
         # initialize the pathfinder BFS 
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
-        self.pathfinder = DijkstraPathfinder(cell_number)
+        self.pathfinder = DijkstraPathfinder(CELL_NUMBER)
 
     def update(self):
         # create the next move
