@@ -19,7 +19,7 @@ class Engine:
         self.snake = Snake()
         self.fruit = Fruit()
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
-        # initialize the pathfinder BFS 
+        # initialize the pathfinder BFS
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
         # self.pathfinder = DijkstraPathfinder(cell_number)
@@ -82,9 +82,11 @@ class Engine:
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
 
-        score_surface = self.font.render(score_text, True, (56, 74, 12))
-        score_x = int(CELL_SIZE * CELL_NUMBER * 0.925)
-        score_y = int(CELL_SIZE * CELL_NUMBER * 0.9)
+        # loads the font
+        game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
+        score_surface = game_font.render(score_text, True, (56, 74, 12))
+        score_x = int(CELL_SIZE * CELL_NUMBER - 60)
+        score_y = int(CELL_SIZE * CELL_NUMBER - 40)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = APPLE_IMG.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
