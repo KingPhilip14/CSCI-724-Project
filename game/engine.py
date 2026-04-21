@@ -7,6 +7,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
 from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
+import config
 from game.fruit import Fruit
 from game.snake import Snake
 from search.bfs import BFSPathfinder
@@ -80,7 +81,8 @@ class Engine:
                         pygame.draw.rect(SCREEN, grass_color, grass_rect)
 
     def draw_score(self):
-        score_text = str(len(self.snake.body) - 3)
+        score_text: str = str(len(self.snake.body) - 3)
+        curr_mode_text: str = config.curr_mode.name
 
         # loads the font
         game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
@@ -92,7 +94,17 @@ class Engine:
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
                               apple_rect.height)
 
+        curr_mode_surface = self.font.render(curr_mode_text, True, (56, 74, 12))
+        curr_mode_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        curr_mode_y = int(CELL_SIZE * CELL_NUMBER * 0.1)
+        curr_mode_rect = curr_mode_surface.get_rect(center=(curr_mode_x, curr_mode_y))
+        mode_bg_rect = pygame.Rect(curr_mode_rect.left, curr_mode_rect.top, curr_mode_rect.width + 15,
+                              curr_mode_rect.height)
+
         pygame.draw.rect(SCREEN, (167, 209, 61), bg_rect)
         SCREEN.blit(score_surface, score_rect)
         SCREEN.blit(APPLE_IMG, apple_rect)
         pygame.draw.rect(SCREEN, (56, 74, 12), bg_rect, 2)
+
+        SCREEN.blit(curr_mode_surface, curr_mode_rect)
+        pygame.draw.rect(SCREEN, (167, 209, 61), mode_bg_rect, 2)

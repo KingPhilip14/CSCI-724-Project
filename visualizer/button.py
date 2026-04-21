@@ -1,4 +1,7 @@
 import os
+
+from enums import SimMode
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import math
@@ -6,6 +9,7 @@ from visualizer.text import Text
 from pygame import Vector2
 from typing import Optional, Callable, Any
 from typing import TypeAlias
+import config
 
 # Typing alias for color
 Color: TypeAlias = str | int | tuple[int, int, int, Optional[int]] | list[
@@ -163,7 +167,8 @@ class Button(Text):
                  padding: int = 5,
                  border_radius: int = 5,
                  click_duration: int = 100,
-                 position: Vector2 = Vector2(0, 0)):
+                 position: Vector2 = Vector2(0, 0),
+                 sim_mode: SimMode = SimMode.NONE):
         """
         Parameters screen, text, font_size, font_name, fg_color, and position are all parameters used in
         Text. Refer to :docs:`text`.
@@ -183,6 +188,7 @@ class Button(Text):
         self.border_radius: int = border_radius
         self.click_duration: int = click_duration
         self.action: Callable = action
+        self.sim_mode: SimMode = sim_mode
 
         # Get mouse used for interaction of buttons
         self.mouse: pygame.mouse = pygame.mouse
@@ -223,6 +229,10 @@ class Button(Text):
     def action(self) -> Callable:
         return self.__action
 
+    @property
+    def sim_mode(self) -> SimMode:
+        return self.__sim_mode
+
     # Setter methods
 
     @colors.setter
@@ -260,6 +270,12 @@ class Button(Text):
         if action is None or not isinstance(action, Callable):
             raise ValueError(f'{self.__class__.__name__}.action must be of type Callable')
         self.__action = action
+
+    @sim_mode.setter
+    def sim_mode(self, sim_mode: SimMode) -> None:
+        if sim_mode is None or not isinstance(sim_mode, SimMode):
+            raise ValueError(f'{self.__class__.__name__}.sim_mode must be of type SimMode')
+        self.__sim_mode = sim_mode
 
     # Methods
 
@@ -323,5 +339,7 @@ class Button(Text):
             self.__clickedTime = pygame.time.get_ticks()
             self.color = self.colors.fg_color_clicked
             self.__bg_current_color = self.colors.bg_color_clicked
+            config.starting_mode = self.sim_mode
+            config.curr_mode = self.sim_mode
             return self.execute(*args, **kwargs)
         return default

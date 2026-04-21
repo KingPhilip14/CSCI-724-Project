@@ -2,6 +2,8 @@ import os
 
 from pygame.font import Font
 
+from enums import SimMode
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
@@ -40,17 +42,17 @@ class MenuTemplate:
         self.button_colors = button_colors
 
         self.a_star_btn: Button = Button(screen, 'A*', lambda: False, font_size=24, padding=10,
-                                         colors=self.button_colors)
-        self.bfs_btn: Button = Button(screen, 'BFS*', lambda: False, font_size=24, padding=10,
-                                      colors=self.button_colors)
+                                         colors=self.button_colors, sim_mode=SimMode.ASTAR)
+        self.bfs_btn: Button = Button(screen, 'BFS', lambda: False, font_size=24, padding=10,
+                                      colors=self.button_colors, sim_mode=SimMode.BFS)
         self.dijk_btn: Button = Button(screen, 'Dijkstra\'s', lambda: False, font_size=24, padding=10,
-                                       colors=self.button_colors)
+                                       colors=self.button_colors, sim_mode=SimMode.DIJK)
         self.gbfs_btn: Button = Button(screen, 'GBFS', lambda: False, font_size=24, padding=10,
-                                       colors=self.button_colors)
+                                       colors=self.button_colors, sim_mode=SimMode.GBFS)
         self.human_btn: Button = Button(screen, 'Human', lambda: False, font_size=24, padding=10,
-                                        colors=self.button_colors)
+                                        colors=self.button_colors, sim_mode=SimMode.HUMAN)
         self.all_btn: Button = Button(screen, 'All', lambda: False, font_size=24, padding=10,
-                                      colors=self.button_colors)
+                                      colors=self.button_colors, sim_mode=SimMode.ALL)
         self.results_btn: Button = Button(screen, 'Exit', lambda: False, font_size=24, padding=10,
                                           colors=self.button_colors)
 
