@@ -1,0 +1,9 @@
+Reverted engine.py file to previous version, this means stripping out some addon to leave it as strictly a logic class. 
+
+This change currently breaks Kofi's work, hopefully i would be able to build something for that. 
+
+Added a bridge to main.py so that the switching logic and running logic can be controlled by the newly added game_controller.py module. 
+
+To note, the Human option is not tested yet so the program might break if selected. 
+
+I intended to get this out so that we can compare before any other drastic changes are made.
