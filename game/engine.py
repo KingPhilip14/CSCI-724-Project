@@ -6,28 +6,13 @@ import pygame
 from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 from game.fruit import Fruit
 from game.snake import Snake
-from search.bfs import BFSPathfinder
-from search.dijkstra import DijkstraPathfinder
-
 
 class Engine:
     def __init__(self):
         self.snake = Snake()
         self.fruit = Fruit()
-        # initialize the pathfinder BFS 
-        # self.pathfinder = BFSPathfinder(cell_number)
-        # initialize Dijkstra pathfinder
-        self.pathfinder = DijkstraPathfinder(cell_number)
 
     def update(self):
-        # create the next move
-        next_move = self.pathfinder.find_next_move(
-            self.snake.body[0],
-            self.fruit.pos,
-            self.snake.body,
-            self.snake.direction
-        )
-        self.snake.direction = next_move
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()

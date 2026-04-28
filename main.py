@@ -9,6 +9,11 @@ from pygame.math import Vector2
 from config import SCREEN, CLOCK
 from game.engine import Engine
 
+# Main Class Changes: 
+# Added the import for the game_controller module.
+# This approach seems a bit better than changing/adding to the main/engine modules.
+from game_controller import update_direction
+
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
@@ -23,8 +28,14 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            # Main Class Changes: 
+            # Replaced the call to engine.update() with a call to update_direction(engine).
+            # This allows the game_controller to move the snake based on the selected algorithm.
+            # Essnetially the same things, just a cleaner implementation for my pipeline and SRP.
             if event.type == SCREEN_UPDATE:
-                engine.update()
+                update_direction(engine)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     if engine.snake.direction.y != 1:
