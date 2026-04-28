@@ -122,7 +122,7 @@ class MenuTemplate:
         self.results_btn.render()
 
 
-class Basic(MenuTemplate):
+class BasicMenu(MenuTemplate):
     """
     The Basic class is a default template that can be used for the menu screens. It inherits from MenuTemplate and
     expands on the inherited methods. If different templates are desired, create more classes in this file. This
@@ -133,7 +133,7 @@ class Basic(MenuTemplate):
         super().__init__(screen, font, text_color, button_colors)
         self.title: Text = Text(screen, title, 48, color=self.text_color)
         self.title.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                             Vector2(0, -150)))
+                                                             Vector2(0, -200)))
 
     def render_buttons(self) -> None:
         """

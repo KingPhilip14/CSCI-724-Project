@@ -19,15 +19,15 @@ class Adapter:
 
         # different colors for the buttons in the visualizer
         self.button_colors: ButtonColors = ButtonColors(
-            bg_color='#8C7753',  # Idle darker tan shade for the background
-            bg_color_hover='#A38E68',  # Hovered slightly lighter tan
-            bg_color_clicked='#735F41',  # Clicked darker brown-tan
-            fg_color='#000000',  # Idle black text
-            fg_color_hover='#2D2D2D',  # Hovered dark gray text
-            fg_color_clicked='#494949'  # Clicked lighter gray text
+            bg_color='#76944C',  # Idle green shade for the background
+            bg_color_hover='#94B565',  # Hovered slightly lighter green
+            bg_color_clicked='#526b2e',  # Clicked darker green background
+            fg_color='#FFD21F',  # Idle yellow text
+            fg_color_hover='#FFDE5C',  # Hovered lighter yellow text
+            fg_color_clicked='#FFFFFF'  # Clicked white text
         )
 
-        self.menu: MenuTemplate = Basic(screen, pygame.font.Font('font/PoetsenOne-Regular.ttf', 25), '#000000', self.button_colors,
+        self.menu: BasicMenu = BasicMenu(screen, pygame.font.Font('font/PoetsenOne-Regular.ttf', 25), '#76944C', self.button_colors,
                                         'A Comparative Analysis: Snake')
         self.turn_number: int = 0
         # self.turn_max: int = MAX_TICKS
@@ -52,6 +52,7 @@ class Adapter:
         Renders and shows everything in the start menu.
         :return: None
         """
+        self.menu.title.render()
         self.menu.render_buttons()
 
     # def on_event(self, event) -> PlaybackButtons:
