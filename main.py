@@ -28,8 +28,7 @@ if __name__ == '__main__':
     start_screen_loop()
 
     for iteration, sim_mode in enumerate(config.sim_mode_list, start = 1):
-        trial_num: int = iteration % config.TOTAL_TRIALS + 1
-        turns: int = 0
+        trial_num: int = iteration % config.TOTAL_TRIALS
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
 
@@ -39,7 +38,7 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
                 if event.type == SCREEN_UPDATE:
-                    engine.update(turns)
+                    engine.update()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         if engine.snake.direction.y != 1:
@@ -54,13 +53,11 @@ if __name__ == '__main__':
                         if engine.snake.direction.x != 1:
                             engine.snake.direction = Vector2(-1, 0)
 
-                    turns += 1
-
             SCREEN.fill((175, 215, 70))
-            engine.draw_elements(trial_num)
+            engine.draw_elements(trial_num, engine.snake.turns)
             pygame.display.update()
 
             # provides 60 FPS (or the best it can)
             CLOCK.tick(60)
 
-        serialize.serialize(engine.score, turns, 1234, 32.1)
+        serialize.serialize(engine.score, engine.snake.turns, 1234, 32.1)

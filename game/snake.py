@@ -29,6 +29,8 @@ class Snake:
         self.body_bl = pygame.image.load('graphics/body_bl.png').convert_alpha()
         self.crunch_sound = pygame.mixer.Sound('sound/crunch.wav')
 
+        self.turns: int = 1
+
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
@@ -82,7 +84,7 @@ class Snake:
             self.tail = self.tail_down
 
     def move_snake(self):
-        if self.new_block == True:
+        if self.new_block:
             body_copy = self.body[:]
             body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy[:]
@@ -91,6 +93,8 @@ class Snake:
             body_copy = self.body[:-1]
             body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy[:]
+
+        self.turns += 1
 
     def add_block(self):
         self.new_block = True
@@ -101,3 +105,4 @@ class Snake:
     def reset(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(0, 0)
+        self.turns = 1

@@ -28,7 +28,7 @@ class Engine:
         # initialize Dijkstra pathfinder
         # self.pathfinder = DijkstraPathfinder(cell_number)
 
-    def update(self, turns: int):
+    def update(self):
         # create the next move
         # next_move = self.pathfinder.find_next_move(
         #     self.snake.body[0],
@@ -39,16 +39,16 @@ class Engine:
         # self.snake.direction = next_move
         self.snake.move_snake()
         self.check_collision()
-        self.check_fail(turns)
-        
-        
-    def draw_elements(self, trial_num):
+        self.check_fail()
+
+    def draw_elements(self, trial_num, turns):
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
         self.draw_score()
         self.draw_curr_mode()
         self.draw_trial_num(trial_num)
+        self.draw_turns(turns)
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -60,11 +60,7 @@ class Engine:
             if block == self.fruit.pos:
                 self.fruit.randomize()
 
-    def check_fail(self, turns: int):
-        # no reason to check fail if no turns have happened yet
-        if turns == 1:
-            return
-
+    def check_fail(self):
         if not 0 <= self.snake.body[0].x < CELL_NUMBER or not 0 <= self.snake.body[0].y < CELL_NUMBER:
             self.game_over()
 
@@ -120,7 +116,7 @@ class Engine:
 
         SCREEN.blit(curr_mode_surface, curr_mode_rect)
 
-    def draw_trial_num(self, trial_num) -> None:
+    def draw_trial_num(self, trial_num: int) -> None:
         trial_num_text: str = str(f'Trial: {trial_num}')
 
         trial_num_surface = self.font.render(trial_num_text, True, (56, 74, 12))
@@ -129,3 +125,13 @@ class Engine:
         trial_num_rect = trial_num_surface.get_rect(center=(trial_num_x, trial_num_y))
 
         SCREEN.blit(trial_num_surface, trial_num_rect)
+
+    def draw_turns(self, turns: int) -> None:
+        turns_text: str = str(f'Turns: {turns}')
+
+        turns_surface = self.font.render(turns_text, True, (56, 74, 12))
+        turns_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        turns_y = int(CELL_SIZE * CELL_NUMBER * 0.95)
+        turns_rect = turns_surface.get_rect(center=(turns_x, turns_y))
+
+        SCREEN.blit(turns_surface, turns_rect)
