@@ -32,3 +32,6 @@ starting_mode: SimMode = SimMode.NONE
 
 # globally used to determine what Simulation Mode the game is in
 curr_mode: SimMode = SimMode.NONE
+
+# globally used to determine all the Simulation Modes to execute
+sim_mode_list: list[SimMode] = []

@@ -341,5 +341,45 @@ class Button(Text):
             self.__bg_current_color = self.colors.bg_color_clicked
             config.starting_mode = self.sim_mode
             config.curr_mode = self.sim_mode
+            config.sim_mode_list = self.__set_mode_list()
             return self.execute(*args, **kwargs)
         return default
+
+    def __set_mode_list(self) -> list[SimMode]:
+        """
+        Based on the button pressed on the starting screen, this will create a list of SimMode enums that represents
+        all modes that should be executed.
+
+        For example, if BFS is selected, the list will be:
+            [SimMode.BFS]
+
+        If All is selected, the list will be:
+            [SimMode.ASTAR, SimMode.BFS, SimMode.GBFS, SimMode.DIJK, SimMode.HUMAN]
+
+        :return: A list of SimMode enums
+        """
+        match self.sim_mode:
+            case SimMode.NONE:
+                return [SimMode.NONE]
+            case SimMode.BFS:
+                return [SimMode.BFS]
+            case SimMode.GBFS:
+                return [SimMode.GBFS]
+            case SimMode.DIJK:
+                return [SimMode.DIJK]
+            case SimMode.ASTAR:
+                return [SimMode.ASTAR]
+            case SimMode.HUMAN:
+                return [SimMode.HUMAN]
+            case SimMode.ALL:
+                # perform human simulation first, then the algorithms last
+                # make list of all enums, each repeating for the total amount of trials a mode should have
+                enums: list[SimMode] = [*[SimMode.HUMAN] * config.TOTAL_TRIALS,
+                                        *[SimMode.ASTAR] * config.TOTAL_TRIALS,
+                                        *[SimMode.BFS] * config.TOTAL_TRIALS,
+                                        *[SimMode.GBFS] * config.TOTAL_TRIALS,
+                                        *[SimMode.DIJK] * config.TOTAL_TRIALS]
+                return enums
+            case _:
+                # return human as failsafe
+                return [SimMode.HUMAN]

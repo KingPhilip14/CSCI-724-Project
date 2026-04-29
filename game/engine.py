@@ -10,6 +10,7 @@ from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 import config
 from game.fruit import Fruit
 from game.snake import Snake
+from visualizer.text import Text
 from search.bfs import BFSPathfinder
 from search.dijkstra import DijkstraPathfinder
 
@@ -20,12 +21,14 @@ class Engine:
         self.snake = Snake()
         self.fruit = Fruit()
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
+        self.score: int = len(self.snake.body) - 3
+        self.not_game_over: bool = True
         # initialize the pathfinder BFS
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
         # self.pathfinder = DijkstraPathfinder(cell_number)
 
-    def update(self):
+    def update(self, turns: int):
         # create the next move
         # next_move = self.pathfinder.find_next_move(
         #     self.snake.body[0],
@@ -36,14 +39,16 @@ class Engine:
         # self.snake.direction = next_move
         self.snake.move_snake()
         self.check_collision()
-        self.check_fail()
+        self.check_fail(turns)
         
         
-    def draw_elements(self):
+    def draw_elements(self, trial_num):
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
         self.draw_score()
+        self.draw_curr_mode()
+        self.draw_trial_num(trial_num)
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -55,7 +60,11 @@ class Engine:
             if block == self.fruit.pos:
                 self.fruit.randomize()
 
-    def check_fail(self):
+    def check_fail(self, turns: int):
+        # no reason to check fail if no turns have happened yet
+        if turns == 1:
+            return
+
         if not 0 <= self.snake.body[0].x < CELL_NUMBER or not 0 <= self.snake.body[0].y < CELL_NUMBER:
             self.game_over()
 
@@ -65,6 +74,7 @@ class Engine:
 
     def game_over(self):
         self.snake.reset()
+        # self.not_game_over = False
 
     def draw_grass(self):
         grass_color = (167, 209, 61)
@@ -81,8 +91,8 @@ class Engine:
                         pygame.draw.rect(SCREEN, grass_color, grass_rect)
 
     def draw_score(self):
-        score_text: str = str(len(self.snake.body) - 3)
-        curr_mode_text: str = config.curr_mode.name
+        self.score = len(self.snake.body) - 3
+        score_text: str = str(self.score)
 
         # loads the font
         game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
@@ -94,17 +104,28 @@ class Engine:
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
                               apple_rect.height)
 
-        curr_mode_surface = self.font.render(curr_mode_text, True, (56, 74, 12))
-        curr_mode_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
-        curr_mode_y = int(CELL_SIZE * CELL_NUMBER * 0.1)
-        curr_mode_rect = curr_mode_surface.get_rect(center=(curr_mode_x, curr_mode_y))
-        mode_bg_rect = pygame.Rect(curr_mode_rect.left, curr_mode_rect.top, curr_mode_rect.width + 15,
-                              curr_mode_rect.height)
-
         pygame.draw.rect(SCREEN, (167, 209, 61), bg_rect)
         SCREEN.blit(score_surface, score_rect)
         SCREEN.blit(APPLE_IMG, apple_rect)
         pygame.draw.rect(SCREEN, (56, 74, 12), bg_rect, 2)
 
+
+    def draw_curr_mode(self) -> None:
+        curr_mode_text: str = config.curr_mode.name
+
+        curr_mode_surface = self.font.render(curr_mode_text, True, (56, 74, 12))
+        curr_mode_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        curr_mode_y = int(CELL_SIZE * CELL_NUMBER * 0.1)
+        curr_mode_rect = curr_mode_surface.get_rect(center=(curr_mode_x, curr_mode_y))
+
         SCREEN.blit(curr_mode_surface, curr_mode_rect)
-        pygame.draw.rect(SCREEN, (167, 209, 61), mode_bg_rect, 2)
+
+    def draw_trial_num(self, trial_num) -> None:
+        trial_num_text: str = str(f'Trial: {trial_num}')
+
+        trial_num_surface = self.font.render(trial_num_text, True, (56, 74, 12))
+        trial_num_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        trial_num_y = int(CELL_SIZE * CELL_NUMBER * 0.15)
+        trial_num_rect = trial_num_surface.get_rect(center=(trial_num_x, trial_num_y))
+
+        SCREEN.blit(trial_num_surface, trial_num_rect)

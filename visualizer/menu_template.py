@@ -87,8 +87,9 @@ class MenuTemplate:
             self.bfs_btn.mouse_clicked(event) if self.bfs_btn.mouse_clicked(event) is not None else \
                 self.dijk_btn.mouse_clicked(event) if self.dijk_btn.mouse_clicked(event) is not None else \
                     self.gbfs_btn.mouse_clicked(event) if self.gbfs_btn.mouse_clicked(event) is not None else \
-                        self.human_btn.mouse_clicked(event) if self.human_btn.mouse_clicked(event) is not None \
-                            else True
+                        self.human_btn.mouse_clicked(event) if self.human_btn.mouse_clicked(event) is not None else \
+                            self.all_btn.mouse_clicked(event) if self.all_btn.mouse_clicked(event) else \
+                                True
 
     def render_buttons(self) -> None:
         """
