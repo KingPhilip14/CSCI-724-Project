@@ -360,17 +360,17 @@ class Button(Text):
         """
         match self.sim_mode:
             case SimMode.NONE:
-                return [SimMode.NONE]
+                return [SimMode.NONE] * config.TOTAL_TRIALS
             case SimMode.BFS:
-                return [SimMode.BFS]
+                return [SimMode.BFS] * config.TOTAL_TRIALS
             case SimMode.GBFS:
-                return [SimMode.GBFS]
+                return [SimMode.GBFS] * config.TOTAL_TRIALS
             case SimMode.DIJK:
-                return [SimMode.DIJK]
+                return [SimMode.DIJK] * config.TOTAL_TRIALS
             case SimMode.ASTAR:
-                return [SimMode.ASTAR]
+                return [SimMode.ASTAR] * config.TOTAL_TRIALS
             case SimMode.HUMAN:
-                return [SimMode.HUMAN]
+                return [SimMode.HUMAN] * config.TOTAL_TRIALS
             case SimMode.ALL:
                 # perform human simulation first, then the algorithms last
                 # make list of all enums, each repeating for the total amount of trials a mode should have
@@ -382,4 +382,4 @@ class Button(Text):
                 return enums
             case _:
                 # return human as failsafe
-                return [SimMode.HUMAN]
+                return [SimMode.HUMAN] * config.TOTAL_TRIALS

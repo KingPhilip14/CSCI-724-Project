@@ -27,10 +27,14 @@ if __name__ == '__main__':
     engine = Engine()
     start_screen_loop()
 
-    for iteration, sim_mode in enumerate(config.sim_mode_list, start = 1):
-        trial_num: int = iteration % config.TOTAL_TRIALS
+    for iteration, sim_mode in enumerate(config.sim_mode_list):
+        trial_num: int = iteration % config.TOTAL_TRIALS + 1
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
+
+        print(f'Iteration: {iteration}\n'
+              f'Simulation mode: {sim_mode}\n'
+              f'Trial num: {trial_num}\n\n')
 
         while not engine.is_game_over:
             for event in pygame.event.get():
