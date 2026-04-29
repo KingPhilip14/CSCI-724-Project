@@ -1,7 +1,5 @@
 import os
 
-# from visualizer.config import VizConfig
-
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
@@ -10,9 +8,6 @@ from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 import config
 from game.fruit import Fruit
 from game.snake import Snake
-from visualizer.text import Text
-from search.bfs import BFSPathfinder
-from search.dijkstra import DijkstraPathfinder
 
 
 class Engine:
@@ -23,20 +18,8 @@ class Engine:
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         self.score: int = len(self.snake.body) - 3
         self.is_game_over: bool = False
-        # initialize the pathfinder BFS
-        # self.pathfinder = BFSPathfinder(cell_number)
-        # initialize Dijkstra pathfinder
-        # self.pathfinder = DijkstraPathfinder(cell_number)
 
     def update(self):
-        # create the next move
-        # next_move = self.pathfinder.find_next_move(
-        #     self.snake.body[0],
-        #     self.fruit.pos,
-        #     self.snake.body,
-        #     self.snake.direction
-        # )
-        # self.snake.direction = next_move
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
