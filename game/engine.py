@@ -22,7 +22,7 @@ class Engine:
         self.fruit = Fruit()
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         self.score: int = len(self.snake.body) - 3
-        self.not_game_over: bool = True
+        self.is_game_over: bool = False
         # initialize the pathfinder BFS
         # self.pathfinder = BFSPathfinder(cell_number)
         # initialize Dijkstra pathfinder
@@ -61,16 +61,19 @@ class Engine:
                 self.fruit.randomize()
 
     def check_fail(self):
+        # check if snake hits the screen
         if not 0 <= self.snake.body[0].x < CELL_NUMBER or not 0 <= self.snake.body[0].y < CELL_NUMBER:
-            self.game_over()
+            # self.reset_snake()
+            self.is_game_over = True
 
+        # check if the snake hits itself
         for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
-                self.game_over()
+                # self.reset_snake()
+                self.is_game_over = True
 
-    def game_over(self):
+    def reset_snake(self):
         self.snake.reset()
-        # self.not_game_over = False
 
     def draw_grass(self):
         grass_color = (167, 209, 61)
@@ -105,7 +108,6 @@ class Engine:
         SCREEN.blit(APPLE_IMG, apple_rect)
         pygame.draw.rect(SCREEN, (56, 74, 12), bg_rect, 2)
 
-
     def draw_curr_mode(self) -> None:
         curr_mode_text: str = config.curr_mode.name
 
@@ -130,7 +132,7 @@ class Engine:
         turns_text: str = str(f'Turns: {turns}')
 
         turns_surface = self.font.render(turns_text, True, (56, 74, 12))
-        turns_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        turns_x = int(CELL_SIZE * CELL_NUMBER * 0.1)
         turns_y = int(CELL_SIZE * CELL_NUMBER * 0.95)
         turns_rect = turns_surface.get_rect(center=(turns_x, turns_y))
 

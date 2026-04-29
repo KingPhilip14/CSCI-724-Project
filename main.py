@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
 
-        while engine.not_game_over:
+        while not engine.is_game_over:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -60,4 +60,10 @@ if __name__ == '__main__':
             # provides 60 FPS (or the best it can)
             CLOCK.tick(60)
 
+            if engine.is_game_over:
+                break
+
         serialize.serialize(engine.score, engine.snake.turns, 1234, 32.1)
+
+        engine.reset_snake()
+        engine.is_game_over = False
