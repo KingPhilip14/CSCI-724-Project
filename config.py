@@ -28,10 +28,10 @@ SIM_MODES: list[str] = [SimMode.BFS.name.lower(), SimMode.GBFS.name.lower(), Sim
 TOTAL_TRIALS: int = 3
 
 # globally used to determine what the starting Simulation Mode is
-starting_mode: SimMode = SimMode.NONE
+starting_mode: SimMode = SimMode.HUMAN
 
 # globally used to determine what Simulation Mode the game is in
-curr_mode: SimMode = SimMode.NONE
+curr_mode: SimMode = SimMode.HUMAN
 
 # globally used to determine all the Simulation Modes to execute
 sim_mode_list: list[SimMode] = []

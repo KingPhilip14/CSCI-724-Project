@@ -1,6 +1,8 @@
 import os
 
 import config
+from enums import SimMode
+from game.game_controller import update_direction
 from serialize import Serialize
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -43,8 +45,10 @@ if __name__ == '__main__':
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == SCREEN_UPDATE:
-                    engine.update()
+                if event.type == SCREEN_UPDATE and sim_mode != SimMode.HUMAN:
+                    update_direction(engine, sim_mode)
+                # if event.type == SCREEN_UPDATE:
+                #     engine.update()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         if engine.snake.direction.y != 1:
