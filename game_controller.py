@@ -1,10 +1,12 @@
 from pygame.math import Vector2
+import tracemalloc
 from config import CELL_NUMBER
 from enums import SimMode
 from test_algorithms.a_star import informed_a_star
 from test_algorithms.greedy_bfs import informed_greedy_bfs
 # from search.bfs import BFSPathfinder
 # from search.dijkstra import DijkstraPathfinder
+from test_algorithms.search_bridge import bfs_bridge, dijkstra_bridge
 
 # This module was created to handle controlling the sanke movement
 # in line with the selected algorithm.
@@ -13,9 +15,9 @@ from test_algorithms.greedy_bfs import informed_greedy_bfs
 ALGORITHM_SELECTION = {
     # References the enums to hopefully help with easier GUI integration.
 
-    # SimMode.BFS: ,
+    SimMode.BFS: bfs_bridge,
     SimMode.GBFS: informed_greedy_bfs,
-    # SimMode.DIJK: ,
+    SimMode.DIJK: dijkstra_bridge,
     SimMode.ASTAR: informed_a_star,
     # SimMode.HUMAN: None
 }
@@ -42,9 +44,6 @@ def get_next_direction(mode, engine):
     
     return engine.snake.direction
 
-# For potentiallly easier enum integration
-current_mode = SimMode.ASTAR
-
 def update_direction(engine):
     """
     The update_direwction function is the link to the the main module game loop
@@ -53,3 +52,34 @@ def update_direction(engine):
     """
     engine.snake.direction = get_next_direction(current_mode, engine)
     engine.update()
+
+# For potentiallly easier enum integration
+current_mode = SimMode.BFS
+
+
+def peak_memory(algorithm, pos_h, pos_f, body, cell_number) -> int:
+    """
+    The peak_memory fiuntion uses pythion's tracemalloc standar module to measure
+    the peak memory usage of any algorithm appropriate that is passed to it as an argument.
+    The rerturned value is in bytes.
+
+    To NOTE: From what i understand, or we have learned, informed and uinformed
+    algorithms should use different amounts of memory space, so showing the 
+    peak memory usage should also work as an indentifier. 
+    Although probably not as informative as having the real-time memory usage,
+    this should work fine as a good sub replacement.
+
+    Alternatively, We could introduce tracemalloc snapshots at the point of the fruit being
+    eaten, which should in theory provide some more appealing graphs.
+
+    This will also require a small change tot he engine.py for a listener.
+    The snapshot function and the start and stop addons(?) as needed.
+
+    Also, the suitable output method needs to be discussed for memory output.
+    """
+    tracemalloc.start()
+    algorithm(pos_h, pos_f, body, cell_number)
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    return peak
