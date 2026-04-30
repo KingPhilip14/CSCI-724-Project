@@ -1,5 +1,6 @@
 # Imports below
-import json 
+import json
+import os
 from pathlib import Path 
 from statistics import mean 
 import matplotlib
@@ -13,6 +14,7 @@ from typing import Dict, List, Any
 # The data file directory
 DATA_DIR = Path("data")
 ALGO_FOLDERS = ["astar", "bfs", "dijk", "gbfs", "human"]
+CHARTS_DIR = Path('charts')
 
 # Load the json data from path
 def load_json(file_path: Path) -> Dict[str, Any]:
@@ -86,7 +88,7 @@ def plot_metric(results: Dict[str, Dict[str, float]], metric_key: str, title: st
     plt.xlabel("Algorithm")
     plt.ylabel(ylabel)
     plt.tight_layout()
-    plt.savefig(output_file)
+    plt.savefig(os.path.join(CHARTS_DIR, output_file))
     # plt.show()
     plt.close()
     
@@ -101,6 +103,10 @@ def main() -> None:
     if not DATA_DIR.exists():
         print("The directory does not exist.")
         return
+
+    if not CHARTS_DIR.exists():
+        os.mkdir(CHARTS_DIR)
+        print('Created the "charts" directory to store data charts.')
     
     results = collect_metrics()
     
