@@ -7,8 +7,6 @@ from enums import SimMode
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
-from pygame import Rect
-
 from typing import Any
 from pygame import Vector2
 from visualizer.button import Button, ButtonColors
@@ -51,10 +49,8 @@ class MenuTemplate:
                                        colors=self.button_colors, sim_mode=SimMode.GBFS)
         self.human_btn: Button = Button(screen, 'Human', lambda: False, font_size=24, padding=10,
                                         colors=self.button_colors, sim_mode=SimMode.HUMAN)
-        self.all_btn: Button = Button(screen, 'All', lambda: False, font_size=24, padding=10,
-                                      colors=self.button_colors, sim_mode=SimMode.ALL)
-        self.results_btn: Button = Button(screen, 'Exit', lambda: False, font_size=24, padding=10,
-                                          colors=self.button_colors)
+        # self.all_btn: Button = Button(screen, 'All', lambda: False, font_size=24, padding=10,
+        #                               colors=self.button_colors, sim_mode=SimMode.ALL)
 
         # The next two variables shouldn't be type hinted. The center is a tuple of two ints (i.e., tuple[int, int])
         self.a_star_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
@@ -65,13 +61,10 @@ class MenuTemplate:
                                                                 Vector2(300, -60)))
         self.gbfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
                                                                 Vector2(-300, 110)))
-        self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                               Vector2(0, 110)))
+        # self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
+        #                                                        Vector2(0, 110)))
         self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
                                                                  Vector2(300, 110)))
-
-        self.results_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                   Vector2(0, 150)))
 
     def start_events(self, event: pygame.event) -> Any:
         """
@@ -80,16 +73,13 @@ class MenuTemplate:
         :param event:
         :return: Any
         """
-        # return self.start_button.mouse_clicked(event) if self.start_button.mouse_clicked(
-        #     event) is not None else True
-
         return self.a_star_btn.mouse_clicked(event) if self.a_star_btn.mouse_clicked(event) is not None else \
             self.bfs_btn.mouse_clicked(event) if self.bfs_btn.mouse_clicked(event) is not None else \
                 self.dijk_btn.mouse_clicked(event) if self.dijk_btn.mouse_clicked(event) is not None else \
                     self.gbfs_btn.mouse_clicked(event) if self.gbfs_btn.mouse_clicked(event) is not None else \
                         self.human_btn.mouse_clicked(event) if self.human_btn.mouse_clicked(event) is not None else \
-                            self.all_btn.mouse_clicked(event) if self.all_btn.mouse_clicked(event) else \
-                                True
+                            True
+                            # self.all_btn.mouse_clicked(event) if self.all_btn.mouse_clicked(event) else \
 
     def render_buttons(self) -> None:
         """
@@ -101,27 +91,7 @@ class MenuTemplate:
         self.dijk_btn.render()
         self.gbfs_btn.render()
         self.human_btn.render()
-        self.all_btn.render()
-
-    def load_results_screen(self, results: dict): ...
-
-    def results_events(self, event: pygame.event) -> Any:
-        """
-        This method will return if the user presses the 'Exit' button on the results screen. The return type is Any
-        since that's what the `mouse_clicked()` method returns.
-        :param event:
-        :return: Any
-        """
-        return self.results_btn.mouse_clicked(event) if self.results_btn.mouse_clicked(
-            event) is not None else True
-
-    def results_render(self) -> None:
-        """
-        Renders the Results button.
-        :return: None
-        """
-        self.results_btn.render()
-
+        # self.all_btn.render()
 
 class BasicMenu(MenuTemplate):
     """
@@ -143,29 +113,3 @@ class BasicMenu(MenuTemplate):
         """
         super().render_buttons()
         self.title.render()
-
-    def load_results_screen(self, results: dict) -> None:
-        """
-        This method will update the self.winning_team_name variable based on the results dict given.
-        :param results:
-        :return: None
-        """
-
-        winning_teams_info = self.__get_winning_teams(results['players'])
-        if len(winning_teams_info) == 2:
-            winning_teams_info = f'Winners: {winning_teams_info[0][:30] + "..." if len(winning_teams_info[0]) > 30 else winning_teams_info[0]}, {winning_teams_info[1][:30] + "..." if len(winning_teams_info[1]) > 30 else winning_teams_info[1]}'
-        else:
-            winning_teams_info = f'Winner: {winning_teams_info[0][:30] + "..." if len(winning_teams_info[0]) > 30 else winning_teams_info[0]}'
-        self.winning_team_name = Text(self.screen, winning_teams_info, 36, color=self.text_color)
-        self.winning_team_name.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                         Vector2(0, -90)))
-
-    def results_render(self) -> None:
-        """
-        This renders the results screen by placing the title and winning team name(s) on the screen.
-        :return:
-        """
-        self.screen.fill(color=(0, 0, 0), rect=Rect(0, 0, 1280, 720))  # Hardcoded values, should be config values
-        super().results_render()
-        self.title.render()
-        self.winning_team_name.render()

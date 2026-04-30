@@ -306,18 +306,22 @@ class Button(Text):
         """
         # Count isClicked up by seconds (get_ticks gets time in milliseconds)
         self.__isClicked = math.floor(pygame.time.get_ticks() - self.__clickedTime)
+
         # Get bg_rect
         bg_rect: pygame.Rect = self.get_bg_rect()
+
         # Hover logic for button
         # If the clicked color has not been visible for ~1sec, do not change
         if self.__isClicked > self.click_duration:
             self.color = self.colors.fg_color
             self.__bg_current_color = self.colors.bg_color
+
             # If mouse position collides with rect, change to hover color
             if bg_rect.collidepoint(self.__mouse.get_pos()):
                 self.color = self.colors.fg_color_hover
                 self.__bg_current_color = self.colors.bg_color_hover
         pygame.draw.rect(self.screen, self.__bg_current_color, bg_rect, border_radius=self.border_radius)
+
         # Render text on top of button
         super().render()
 
@@ -339,9 +343,12 @@ class Button(Text):
             self.__clickedTime = pygame.time.get_ticks()
             self.color = self.colors.fg_color_clicked
             self.__bg_current_color = self.colors.bg_color_clicked
-            config.starting_mode = self.sim_mode
-            config.curr_mode = self.sim_mode
             config.sim_mode_list = self.__set_mode_list()
+            config.starting_mode = self.sim_mode
+            config.curr_mode = config.sim_mode_list[0]
+
+            print(config.sim_mode_list)
+
             return self.execute(*args, **kwargs)
         return default
 
@@ -371,15 +378,19 @@ class Button(Text):
                 return [SimMode.ASTAR] * config.TOTAL_TRIALS
             case SimMode.HUMAN:
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS
-            case SimMode.ALL:
-                # perform human simulation first, then the algorithms last
-                # make list of all enums, each repeating for the total amount of trials a mode should have
-                enums: list[SimMode] = [*[SimMode.HUMAN] * config.TOTAL_TRIALS,
-                                        *[SimMode.ASTAR] * config.TOTAL_TRIALS,
-                                        *[SimMode.BFS] * config.TOTAL_TRIALS,
-                                        *[SimMode.GBFS] * config.TOTAL_TRIALS,
-                                        *[SimMode.DIJK] * config.TOTAL_TRIALS]
-                return enums
+            # case SimMode.ALL:
+            #     # perform human simulation first, then the algorithms last
+            #     # make list of all enums, each repeating for the total amount of trials a mode should have
+            #     enums = []
+            #     for _ in range(config.TOTAL_TRIALS):
+            #         enums.extend([
+            #             SimMode.HUMAN,
+            #             SimMode.ASTAR,
+            #             SimMode.BFS,
+            #             SimMode.GBFS,
+            #             SimMode.DIJK
+            #         ])
+            #     return enums
             case _:
                 # return human as failsafe
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS

@@ -55,34 +55,6 @@ class Adapter:
         self.menu.title.render()
         self.menu.render_buttons()
 
-    # def on_event(self, event) -> PlaybackButtons:
-    #     """
-    #     By giving this method an event, this method can execute whatever is specified. An example is provided below
-    #     and commented out. Use as necessary.
-    #     :param event: The pygame event triggered each frame. See
-    #     `pygame <https://www.pygame.org/docs/ref/event.html for more information>`_
-    #     for more information.
-    #     :return: None
-    #     """
-    #
-    #     # The line below is an example of what this method could be used for.
-    #     # self.button.mouse_clicked(event)
-    #     return self.playback.playback_events(event)
-
-    def prerender(self) -> None:
-        """
-        This will handle anything that needs to be completed before animations start every turn.
-        :return: None
-        """
-        ...
-
-    def continue_animation(self) -> None:
-        """
-        This method is used after the main.py continue_animation() method.
-        :return: None
-        """
-        ...
-
     def recalc_animation(self, turn_log: dict) -> None:
         """
         This method is called every time the turn changes
@@ -90,18 +62,6 @@ class Adapter:
         :return: None
         """
         self.turn_number = turn_log['tick']
-
-    # def populate_bytesprite_factories(self) -> dict[int, Callable[[pygame.Surface], ByteSprite]]:
-    #     """
-    #     Instantiate all bytesprites for each objectType and add them here using the value of ObjectType as the key
-    #     and the factory function as the value
-    #     :return: dict[int, Callable[[pygame.Surface], ByteSprite]]
-    #     """
-    #     return {
-    #         4: AvatarBytespriteFactoryExample.create_bytesprite,
-    #         7: TileBytespriteFactoryExample.create_bytesprite,
-    #         8: WallBytespriteFactoryExample.create_bytesprite,
-    #     }
 
     def render(self) -> None:
         """
@@ -114,36 +74,3 @@ class Adapter:
             Vector2(*self.screen.get_rect().midtop))  # Vector(*self.screen.get_rect().midtop).add_y(50).as_tuple()
         # text.rect.center = Vector(*self.screen.get_rect().midtop).add_y(50).as_tuple()
         text.render()
-        # self.playback.playback_render()
-
-    def clean_up(self) -> None:
-        """
-        This method is called after rendering each frame.
-        :return: None
-        """
-        ...
-
-    def results_load(self, results: dict) -> None:
-        """
-        This method is called to load the end screen for the visualizer.
-        :param results: A dictionary containing the results of the run
-        :return: None
-        """
-        self.menu.load_results_screen(results)
-
-    def results_event(self, event: pygame.event) -> Any:
-        """
-        This method is called to handle events of the visualizer in the end screen
-        :param event: The pygame event triggered each frame. See
-        `pygame <https://www.pygame.org/docs/ref/event.html>`_
-        for more information.
-        :return: Any value that is defined in the results_events
-        """
-        return self.menu.results_events(event)
-
-    def results_render(self) -> None:
-        """
-        This renders the end screen for the visualizer
-        :return:
-        """
-        self.menu.results_render()

@@ -12,7 +12,6 @@ from game.snake import Snake
 
 class Engine:
     def __init__(self):
-        # self.viz_config = VizConfig()
         self.snake = Snake()
         self.fruit = Fruit()
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
@@ -95,7 +94,7 @@ class Engine:
         curr_mode_text: str = config.curr_mode.name
 
         curr_mode_surface = self.font.render(curr_mode_text, True, (56, 74, 12))
-        curr_mode_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        curr_mode_x = int(CELL_SIZE * CELL_NUMBER * 0.1)
         curr_mode_y = int(CELL_SIZE * CELL_NUMBER * 0.1)
         curr_mode_rect = curr_mode_surface.get_rect(center=(curr_mode_x, curr_mode_y))
 
@@ -105,7 +104,7 @@ class Engine:
         trial_num_text: str = str(f'Trial: {trial_num}')
 
         trial_num_surface = self.font.render(trial_num_text, True, (56, 74, 12))
-        trial_num_x = int(CELL_SIZE * CELL_NUMBER * 0.075)
+        trial_num_x = int(CELL_SIZE * CELL_NUMBER * 0.1)
         trial_num_y = int(CELL_SIZE * CELL_NUMBER * 0.15)
         trial_num_rect = trial_num_surface.get_rect(center=(trial_num_x, trial_num_y))
 

@@ -24,11 +24,13 @@ if __name__ == '__main__':
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)
 
-    engine = Engine()
     start_screen_loop()
 
     for iteration, sim_mode in enumerate(config.sim_mode_list):
-        trial_num: int = iteration % config.TOTAL_TRIALS + 1
+        trial_num: int = (iteration % config.TOTAL_TRIALS) + 1
+        config.curr_mode = sim_mode
+
+        engine = Engine()
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
 
