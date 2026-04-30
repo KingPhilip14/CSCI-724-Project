@@ -30,7 +30,7 @@ class Adapter:
         self.menu: BasicMenu = BasicMenu(screen, pygame.font.Font('font/PoetsenOne-Regular.ttf', 25), '#76944C', self.button_colors,
                                         'A Comparative Analysis: Snake')
         self.turn_number: int = 0
-        # self.turn_max: int = MAX_TICKS
+        self.screen_bg_color = pygame.Color('#002626')
 
     # Define any methods button may run
 
@@ -52,6 +52,7 @@ class Adapter:
         Renders and shows everything in the start menu.
         :return: None
         """
+        self.screen.fill(self.screen_bg_color)
         self.menu.title.render()
         self.menu.render_buttons()
 

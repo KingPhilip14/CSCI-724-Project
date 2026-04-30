@@ -378,19 +378,6 @@ class Button(Text):
                 return [SimMode.ASTAR] * config.TOTAL_TRIALS
             case SimMode.HUMAN:
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS
-            # case SimMode.ALL:
-            #     # perform human simulation first, then the algorithms last
-            #     # make list of all enums, each repeating for the total amount of trials a mode should have
-            #     enums = []
-            #     for _ in range(config.TOTAL_TRIALS):
-            #         enums.extend([
-            #             SimMode.HUMAN,
-            #             SimMode.ASTAR,
-            #             SimMode.BFS,
-            #             SimMode.GBFS,
-            #             SimMode.DIJK
-            #         ])
-            #     return enums
             case _:
                 # return human as failsafe
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS

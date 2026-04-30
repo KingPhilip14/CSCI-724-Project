@@ -49,22 +49,18 @@ class MenuTemplate:
                                        colors=self.button_colors, sim_mode=SimMode.GBFS)
         self.human_btn: Button = Button(screen, 'Human', lambda: False, font_size=24, padding=10,
                                         colors=self.button_colors, sim_mode=SimMode.HUMAN)
-        # self.all_btn: Button = Button(screen, 'All', lambda: False, font_size=24, padding=10,
-        #                               colors=self.button_colors, sim_mode=SimMode.ALL)
 
         # The next two variables shouldn't be type hinted. The center is a tuple of two ints (i.e., tuple[int, int])
         self.a_star_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                  Vector2(-300, -60)))
+                                                                  Vector2(-300, -20)))
         self.bfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                               Vector2(0, -60)))
+                                                               Vector2(0, -20)))
         self.dijk_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(300, -60)))
+                                                                Vector2(280, -20)))
         self.gbfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(-300, 110)))
-        # self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-        #                                                        Vector2(0, 110)))
+                                                                Vector2(-170, 150)))
         self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                 Vector2(300, 110)))
+                                                                 Vector2(160, 150)))
 
     def start_events(self, event: pygame.event) -> Any:
         """
@@ -79,7 +75,6 @@ class MenuTemplate:
                     self.gbfs_btn.mouse_clicked(event) if self.gbfs_btn.mouse_clicked(event) is not None else \
                         self.human_btn.mouse_clicked(event) if self.human_btn.mouse_clicked(event) is not None else \
                             True
-                            # self.all_btn.mouse_clicked(event) if self.all_btn.mouse_clicked(event) else \
 
     def render_buttons(self) -> None:
         """
@@ -91,7 +86,6 @@ class MenuTemplate:
         self.dijk_btn.render()
         self.gbfs_btn.render()
         self.human_btn.render()
-        # self.all_btn.render()
 
 class BasicMenu(MenuTemplate):
     """
