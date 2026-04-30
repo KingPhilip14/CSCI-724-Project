@@ -43,6 +43,10 @@ def get_next_direction(mode, engine):
         nx, ny = path[1]
         return Vector2(nx - head.x, ny - head.y)
 
+    # a failsafe statement to prevent returning None to keep the snake moving
+    if engine.snake.direction is None:
+        return Vector2(0, 0)
+
     return engine.snake.direction
 
 
@@ -52,8 +56,11 @@ def update_direction(engine, curr_mode: SimMode):
     where the function is called to pass the output of the get_next_direction function
     to the engine.
     """
-    engine.snake.direction = get_next_direction(curr_mode, engine)
-    engine.update()
+    new_dir = get_next_direction(curr_mode, engine)
+
+    # checks to ensure a new direction can be set
+    if new_dir is not None:
+        engine.snake.direction = new_dir
 
 
 def peak_memory(algorithm, pos_h, pos_f, body, cell_number) -> int:

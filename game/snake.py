@@ -84,8 +84,8 @@ class Snake:
             self.tail = self.tail_down
 
     def move_snake(self):
-        # if no direction is set, don't do anything
-        if self.direction == Vector2(0, 0):
+        # if no direction is set, or if the direction is None, don't do anything
+        if self.direction is None or self.direction == Vector2(0, 0):
             return
 
         if self.new_block:
