@@ -1,8 +1,10 @@
 from enum import Enum
 
 class SimMode(Enum):
-    BFS = 1
-    GBFS = 2
-    DIJK = 3
-    ASTAR = 4
-    HUMAN = 5
+    NONE = 1
+    BFS = 2
+    GBFS = 3
+    DIJK = 4
+    ASTAR = 5
+    HUMAN = 6
+    ALL = 7

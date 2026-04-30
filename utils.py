@@ -1,5 +1,6 @@
 import os
 
+from pygame import Vector2
 from config import SIM_MODES
 
 
@@ -26,3 +27,12 @@ def get_data_file_path(curr_mode_name: str, trial_num: int) -> str:
     :return: string
     """
     return os.path.join('data', curr_mode_name, f'{curr_mode_name}_trial_{trial_num}.json')
+
+
+def vector_as_tuple(vector: Vector2) -> tuple[int, int]:
+    return int(vector.x), int(vector.y)
+
+def add_vectors(vector_1: Vector2, vector_2: Vector2) -> Vector2:
+    new_x: int = int(vector_1.x + vector_2.x)
+    new_y: int = int(vector_1.y + vector_2.y)
+    return Vector2(new_x, new_y)

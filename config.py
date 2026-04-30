@@ -1,4 +1,5 @@
 import os
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
@@ -17,7 +18,7 @@ SCREEN = (pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_S
 CLOCK = pygame.time.Clock()
 
 # loads the apple image
-APPLE_IMG = pygame.image.load('graphics/apple.png').convert_alpha()
+APPLE_IMG = pygame.image.load(os.path.join(os.getcwd(), 'graphics', 'apple.png')).convert_alpha()
 
 # a list of strings based on the SimMode enums to determine
 SIM_MODES: list[str] = [SimMode.BFS.name.lower(), SimMode.GBFS.name.lower(), SimMode.DIJK.name.lower(),
@@ -25,3 +26,12 @@ SIM_MODES: list[str] = [SimMode.BFS.name.lower(), SimMode.GBFS.name.lower(), Sim
 
 # determines how many times a single algorithm should be executed; helps with getting an average for final results
 TOTAL_TRIALS: int = 3
+
+# globally used to determine what the starting Simulation Mode is
+starting_mode: SimMode = SimMode.NONE
+
+# globally used to determine what Simulation Mode the game is in
+curr_mode: SimMode = SimMode.NONE
+
+# globally used to determine all the Simulation Modes to execute
+sim_mode_list: list[SimMode] = []

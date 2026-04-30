@@ -40,6 +40,8 @@ class Serialize:
             json.dump(data, f)
             f.close()
 
+        print(f'Wrote the file "{self.data_file_path}"')
+
     def get_json_data(self, path: str | None = None) -> dict[str, Any]:
         """
         Takes in an optional parameter of a data file path. If the given path exists, it will be used to extract the
