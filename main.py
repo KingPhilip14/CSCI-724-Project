@@ -1,4 +1,5 @@
 import os
+import random
 
 import config
 from enums import SimMode
@@ -28,11 +29,19 @@ if __name__ == '__main__':
 
     start_screen_loop()
 
+    # generates a list of 3 random seeds to be used during iterations
+    seeds: list[int] = [random.randint(0, 10000000), random.randint(0, 10000000), random.randint(0, 10000000)]
+
     for iteration, sim_mode in enumerate(config.sim_mode_list):
         trial_num: int = (iteration % config.TOTAL_TRIALS) + 1
+
+        # set the random seed universally here
+        seed: int = seeds[trial_num - 1]
+        random.seed(seed)
+
         config.curr_mode = sim_mode
 
-        engine = Engine()
+        engine = Engine(seed)
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
 
@@ -41,6 +50,8 @@ if __name__ == '__main__':
               f'Trial num: {trial_num}\n\n')
 
         while not engine.is_game_over:
+            engine.seed = seed
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -74,7 +85,7 @@ if __name__ == '__main__':
             pygame.display.update()
 
             # provides 60 FPS (or the best it can)
-            CLOCK.tick(60)
+            CLOCK.tick(60) if sim_mode is not SimMode.HUMAN else CLOCK.tick(240)
 
             if engine.is_game_over:
                 break

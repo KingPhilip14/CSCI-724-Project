@@ -376,6 +376,9 @@ class Button(Text):
                 return [SimMode.ASTAR] * config.TOTAL_TRIALS
             case SimMode.HUMAN:
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS
+            case SimMode.ALL:
+                modes: list[SimMode] = [SimMode.HUMAN, SimMode.BFS, SimMode.GBFS, SimMode.DIJK, SimMode.ASTAR]
+                return [mode for mode in modes for _ in range(config.TOTAL_TRIALS)]
             case _:
                 # return human as failsafe
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS

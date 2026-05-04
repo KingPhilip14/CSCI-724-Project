@@ -49,6 +49,8 @@ class MenuTemplate:
                                        colors=self.button_colors, sim_mode=SimMode.GBFS)
         self.human_btn: Button = Button(screen, 'Human', lambda: False, font_size=24, padding=10,
                                         colors=self.button_colors, sim_mode=SimMode.HUMAN)
+        self.all_btn: Button = Button(screen, 'All', lambda: False, font_size=24, padding=10,
+                                        colors=self.button_colors, sim_mode=SimMode.ALL)
 
         # The next two variables shouldn't be type hinted. The center is a tuple of two ints (i.e., tuple[int, int])
         self.a_star_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
@@ -58,9 +60,12 @@ class MenuTemplate:
         self.dijk_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
                                                                 Vector2(280, -20)))
         self.gbfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(-170, 150)))
+                                                                Vector2(-300, 170)))
+        self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
+                                                                 Vector2(0, 170)))
         self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                 Vector2(160, 150)))
+                                                                 Vector2(280, 170)))
+
 
     def start_events(self, event: pygame.event) -> Any:
         """
@@ -74,7 +79,8 @@ class MenuTemplate:
                 self.dijk_btn.mouse_clicked(event) if self.dijk_btn.mouse_clicked(event) is not None else \
                     self.gbfs_btn.mouse_clicked(event) if self.gbfs_btn.mouse_clicked(event) is not None else \
                         self.human_btn.mouse_clicked(event) if self.human_btn.mouse_clicked(event) is not None else \
-                            True
+                            self.all_btn.mouse_clicked(event) if self.all_btn.mouse_clicked(event) is not None else \
+                                True
 
     def render_buttons(self) -> None:
         """
@@ -86,6 +92,7 @@ class MenuTemplate:
         self.dijk_btn.render()
         self.gbfs_btn.render()
         self.human_btn.render()
+        self.all_btn.render()
 
 class BasicMenu(MenuTemplate):
     """

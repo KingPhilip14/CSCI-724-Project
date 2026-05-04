@@ -8,6 +8,7 @@ class Snake:
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(0, 0)
+        self.prev_direction = Vector2(0, 0)
         self.new_block = False
 
         self.head_up = pygame.image.load('graphics/head_up.png').convert_alpha()

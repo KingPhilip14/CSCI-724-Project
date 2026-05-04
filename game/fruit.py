@@ -11,10 +11,12 @@ from config import CELL_SIZE, CELL_NUMBER, SCREEN, APPLE_IMG
 
 class Fruit:
     def __init__(self):
-        self.randomize()
         self.x: int = 0
         self.y: int = 0
         self.pos: Vector2 = Vector2(self.x, self.y)
+
+        # set defaults, then randomize the position
+        self.randomize()
 
     def draw_fruit(self):
         fruit_rect = pygame.Rect(int(self.pos.x * CELL_SIZE), int(self.pos.y * CELL_SIZE), CELL_SIZE, CELL_SIZE)
