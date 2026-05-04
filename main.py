@@ -13,7 +13,7 @@ import sys
 import pygame
 from pygame.math import Vector2
 
-from config import SCREEN, CLOCK
+from config import SCREEN, CLOCK, FRAME_RATE
 from game.engine import Engine
 from visualizer.viz_logic import start_screen_loop
 
@@ -77,24 +77,38 @@ if __name__ == '__main__':
                         if engine.snake.direction.x != 1:
                             engine.snake.direction = Vector2(-1, 0)
 
-                # for when the screen updates
-                if event.type == SCREEN_UPDATE:
-                    if sim_mode != SimMode.HUMAN:
-                        # if using an AI algorithm, get the new direction the snake would want
-                        memory, exec_time = update_direction(engine, sim_mode)
-                        exec_times.append(exec_time)
+                if sim_mode == SimMode.HUMAN:
+                    if event.type == SCREEN_UPDATE:
+                        engine.update()
+                else:
+                    # runs the given algorithm every frame to help speed it up
+                    # if using an AI algorithm, get the new direction the snake would want
+                    memory, exec_time = update_direction(engine, sim_mode)
+                    exec_times.append(exec_time)
 
-                        if memory > peak_mem:
-                            peak_mem = memory
+                    if memory > peak_mem:
+                        peak_mem = memory
 
                     engine.update()
+
+                # # for when the screen updates
+                # if event.type == SCREEN_UPDATE:
+                #     if sim_mode != SimMode.HUMAN:
+                #         # if using an AI algorithm, get the new direction the snake would want
+                #         memory, exec_time = update_direction(engine, sim_mode)
+                #         exec_times.append(exec_time)
+                #
+                #         if memory > peak_mem:
+                #             peak_mem = memory
+                #
+                #     engine.update()
 
             SCREEN.fill((175, 215, 70))
             engine.draw_elements(trial_num, engine.snake.turns)
             pygame.display.update()
 
             # provides 60 FPS (or the best it can)
-            CLOCK.tick(60) if sim_mode is not SimMode.HUMAN else CLOCK.tick(240)
+            CLOCK.tick(FRAME_RATE) if sim_mode is not SimMode.HUMAN else CLOCK.tick(FRAME_RATE * 5)
 
             if engine.is_game_over:
                 break

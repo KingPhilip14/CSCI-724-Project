@@ -27,6 +27,9 @@ SIM_MODES: list[str] = [SimMode.BFS.name.lower(), SimMode.GBFS.name.lower(), Sim
 # determines how many times a single algorithm should be executed; helps with getting an average for final results
 TOTAL_TRIALS: int = 3
 
+# used to set the frame rate of the game
+FRAME_RATE: int = 60
+
 # globally used to determine what the starting Simulation Mode is
 starting_mode: SimMode = SimMode.HUMAN
 

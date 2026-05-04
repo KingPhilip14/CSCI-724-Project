@@ -28,7 +28,7 @@ class Adapter:
         )
 
         self.menu: BasicMenu = BasicMenu(screen, pygame.font.Font('font/PoetsenOne-Regular.ttf', 25), '#76944C', self.button_colors,
-                                        'A Comparative Analysis: Snake')
+                                        'A Comparative Analysis: Snake', '(Hold any key to speed up an AI algorithm)')
         self.turn_number: int = 0
         self.screen_bg_color = pygame.Color('#002626')
 
@@ -55,6 +55,7 @@ class Adapter:
         self.screen.fill(self.screen_bg_color)
         self.menu.title.render()
         self.menu.render_buttons()
+        self.menu.extra_text.render()
 
     def recalc_animation(self, turn_log: dict) -> None:
         """

@@ -54,17 +54,17 @@ class MenuTemplate:
 
         # The next two variables shouldn't be type hinted. The center is a tuple of two ints (i.e., tuple[int, int])
         self.a_star_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                  Vector2(-300, -20)))
+                                                                  Vector2(-300, -60)))
         self.bfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                               Vector2(0, -20)))
+                                                               Vector2(0, -60)))
         self.dijk_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(280, -20)))
+                                                                Vector2(280, -60)))
         self.gbfs_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                Vector2(-300, 170)))
+                                                                Vector2(-300, 110)))
         self.all_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                 Vector2(0, 170)))
+                                                                 Vector2(0, 110)))
         self.human_btn.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                                 Vector2(280, 170)))
+                                                                 Vector2(280, 110)))
 
 
     def start_events(self, event: pygame.event) -> Any:
@@ -101,11 +101,15 @@ class BasicMenu(MenuTemplate):
     Basic class can be used as a template for any future classes.
     """
 
-    def __init__(self, screen: pygame.Surface, font: Font, text_color: str, button_colors: ButtonColors, title: str):
+    def __init__(self, screen: pygame.Surface, font: Font, text_color: str,
+                 button_colors: ButtonColors, title: str, extra_text: str = ''):
         super().__init__(screen, font, text_color, button_colors)
         self.title: Text = Text(screen, title, 48, color=self.text_color)
         self.title.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
-                                                             Vector2(0, -200)))
+                                                             Vector2(0, -250)))
+        self.extra_text: Text = Text(screen, extra_text, 16, color=self.text_color)
+        self.extra_text.rect.center = vector_as_tuple(add_vectors(Vector2(*self.screen.get_rect().center),
+                                                             Vector2(0, 300)))
 
     def render_buttons(self) -> None:
         """

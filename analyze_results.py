@@ -23,7 +23,7 @@ def load_json(file_path: Path) -> Dict[str, Any]:
     
 # next collect the metrics
 def collect_metrics() -> Dict[str, Dict[str, float]]:
-    # results hasmap to store the results
+    # results hashmap to store the results
     results: Dict[str, Dict[str, float]] = {}
     
     # iterate through the folders
@@ -41,10 +41,10 @@ def collect_metrics() -> Dict[str, Dict[str, float]]:
             print(f"No JSON files found in: {folder_path}")
             continue 
         
-        # tracking scores, turns, mem_spaces and exec_times in array
+        # tracking scores, turns, peak memories and exec_times in array
         scores: List[float] = []
         turns: List[float] = []
-        mem_spaces: List[float] = []
+        peak_mems: List[int] = []
         exec_times: List[float] = []
         
         for json_file in json_files:
@@ -52,13 +52,13 @@ def collect_metrics() -> Dict[str, Dict[str, float]]:
             
             scores.append(data.get("score", 0))
             turns.append(data.get("turns", 0))
-            mem_spaces.append(data.get("mem_space", 0))
+            peak_mems.append(data.get("peak_mem", 0))
             exec_times.append(data.get("avg_exec_time", 0))
             
         results[folder_name] = {
             "avg_score": mean(scores),
             "avg_turns": mean(turns),
-            "avg_mem_space": mean(mem_spaces),
+            "avg_peak_mem": mean(peak_mems),
             "avg_exec_time": mean(exec_times),
             "num_trials": len(json_files)
         }
@@ -74,7 +74,7 @@ def print_summary(results: Dict[str, Dict[str, float]]) -> None:
         print(f"   Trials       :  {metrics['num_trials']}")
         print(f"   Avg Score    :  {metrics['avg_score']:.2f}")
         print(f"   Avg Turns    :  {metrics['avg_turns']:.2f}")
-        print(f"   Avg Mem Space   :  {metrics['avg_mem_space']:.2f}")
+        print(f"   Avg Mem Space   :  {metrics['avg_peak_mem']:.2f}")
         print(f"   Avg Exec Time   : {metrics['avg_exec_time']:.6f}")
         
 def plot_metric(results: Dict[str, Dict[str, float]], metric_key: str, title: str, ylabel: str, output_file: str) -> None:
@@ -94,10 +94,10 @@ def plot_metric(results: Dict[str, Dict[str, float]], metric_key: str, title: st
     
     
 def generate_charts(results: Dict[str, Dict[str, float]]) -> None:
-    plot_metric(results, "avg_score", "Avergae Score by Algorithm", "Average Score", "avg_score_chart.png")
+    plot_metric(results, "avg_score", "Average Score by Algorithm", "Average Score", "avg_score_chart.png")
     plot_metric(results, "avg_turns", "Average Turns by Algorithm", "Average Turns", "avg_turns_chart.png")
-    plot_metric(results, "avg_mem_space", "Average Memory Space by Algorithm", "Average Memory Space", "avg_mem_space_chart.png")
-    plot_metric(results, "avg_exec_time", "Average Execution Time in Algorithm", "Average Execution Time", "avg_exec_time_chart.png")
+    plot_metric(results, "avg_peak_mem", "Average Memory Space by Algorithm (bytes)", "Average Memory Space", "avg_peak_mem_chart.png")
+    plot_metric(results, "avg_exec_time", "Average Execution Time in Algorithm (secs)", "Average Execution Time", "avg_exec_time_chart.png")
     
 def main() -> None:
     if not DATA_DIR.exists():
