@@ -44,7 +44,7 @@ class TestSerialize(unittest.TestCase):
         self.assertEqual(data['score'], self.score)
         self.assertEqual(data['turns'], self.turns)
         self.assertEqual(data['peak_mem'], self.peak_mem)
-        self.assertEqual(data['exec_time'], self.exec_time)
+        self.assertEqual(data['avg_exec_time'], self.exec_time)
 
     def test_given_new_path(self) -> None:
         """
@@ -75,7 +75,7 @@ class TestSerialize(unittest.TestCase):
         self.assertEqual(data['score'], self.score + 17)
         self.assertEqual(data['turns'], self.turns + 5)
         self.assertEqual(data['peak_mem'], self.peak_mem)
-        self.assertEqual(data['exec_time'], self.exec_time + 30)
+        self.assertEqual(data['avg_exec_time'], self.exec_time + 30)
 
 
     def test_get_json_data_raised_error(self) -> None:

@@ -34,20 +34,25 @@ if __name__ == '__main__':
 
     for iteration, sim_mode in enumerate(config.sim_mode_list):
         trial_num: int = (iteration % config.TOTAL_TRIALS) + 1
+        highest_mem: int = 0
 
         # set the random seed universally here
         seed: int = seeds[trial_num - 1]
         random.seed(seed)
 
+        # set the config curr_mode to keep things consistent
         config.curr_mode = sim_mode
 
         engine = Engine(seed)
 
         serialize: Serialize = Serialize(sim_mode, trial_num)
+        exec_times: list[float] = []
+        peak_mem: int = 0
 
         print(f'Iteration: {iteration}\n'
               f'Simulation mode: {sim_mode}\n'
-              f'Trial num: {trial_num}\n\n')
+              f'Trial num: {trial_num}\n'
+              f'Seed: {seed}\n\n')
 
         while not engine.is_game_over:
             engine.seed = seed
@@ -76,7 +81,11 @@ if __name__ == '__main__':
                 if event.type == SCREEN_UPDATE:
                     if sim_mode != SimMode.HUMAN:
                         # if using an AI algorithm, get the new direction the snake would want
-                        update_direction(engine, sim_mode)
+                        memory, exec_time = update_direction(engine, sim_mode)
+                        exec_times.append(exec_time)
+
+                        if memory > peak_mem:
+                            peak_mem = memory
 
                     engine.update()
 
@@ -90,7 +99,9 @@ if __name__ == '__main__':
             if engine.is_game_over:
                 break
 
-        serialize.serialize(engine.score, engine.snake.turns, 1234, 32.1)
+        avg_exec_time: float = sum(exec_times) / len(exec_times) if sim_mode != SimMode.HUMAN else 0
+
+        serialize.serialize(engine.score, engine.snake.turns, peak_mem, avg_exec_time)
 
         engine.reset_snake()
         engine.is_game_over = False

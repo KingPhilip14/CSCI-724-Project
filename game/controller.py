@@ -1,4 +1,5 @@
 import random
+import time
 import tracemalloc
 
 from pygame.math import Vector2
@@ -24,7 +25,7 @@ ALGORITHM_SELECTION = {
 }
 
 
-def get_next_direction(mode, engine):
+def get_next_direction(mode, engine) -> Vector2:
     """
     The get_next_direction function essentially takes the simulated input from the
     selected algorithm and allows the sake to be moved in accordance to the path
@@ -44,7 +45,7 @@ def get_next_direction(mode, engine):
         nx, ny = path[1]
         return Vector2(nx - head.x, ny - head.y)
 
-    # failsafe to safe movement instead of "keep going blindly"
+    # failsafe to safe movement instead of making blind movements
     return get_safe_move(engine)
 
 
@@ -89,12 +90,25 @@ def get_safe_move(engine):
     return Vector2(1, 0)  # last-resort default
 
 
-def update_direction(engine, curr_mode: SimMode):
+def update_direction(engine, curr_mode: SimMode) -> tuple[int, float]:
     """
     The update_direction function is the link to the main module game loop
     where the function is called to pass the output of the get_next_direction function
     to the engine.
+
+    Return the float representing the execution time for the algorithm
     """
+    snake_head = engine.snake.body[0]
+    peak_mem: int = peak_memory(ALGORITHM_SELECTION.get(curr_mode),
+                                (int(snake_head.x), int(snake_head.y)),
+                                (int(engine.fruit.pos.x),
+                                 int(engine.fruit.pos.y)),
+                                [(int(b.x), int(b.y)) for b in engine.snake.body],
+                                CELL_NUMBER)
+
+    # start timer for execution time
+    start = time.perf_counter()
+
     prev_direction = engine.snake.direction
     new_dir = get_next_direction(curr_mode, engine)
 
@@ -105,6 +119,13 @@ def update_direction(engine, curr_mode: SimMode):
     if new_dir is not None:
         engine.snake.direction = new_dir
         engine.snake.prev_direction = prev_direction
+
+    end = time.perf_counter()
+
+    # return execution time
+    exec_time = end - start
+
+    return peak_mem, exec_time
 
 
 def peak_memory(algorithm, pos_h, pos_f, body, cell_number) -> int:

@@ -5,7 +5,6 @@ from enums import SimMode
 from utils import create_dirs
 import json
 from utils import get_data_file_path
-import base64
 
 
 class Serialize:
@@ -15,13 +14,13 @@ class Serialize:
         self.trial_num = trial_num
         self.data_file_path: str = get_data_file_path(self.curr_mode_name, self.trial_num)
 
-    def serialize(self, score: int, turns: int, peak_mem: int, exec_time: float) -> None:
+    def serialize(self, score: int, turns: int, peak_mem: int, avg_exec_time: float) -> None:
         """
         Collects all major data points needed for metric analysis and stores them as JSON files in the data directory.
         :param score: The total score gained for the current execution run.
         :param turns: The total turns it took to complete the current execution run.
         :param peak_mem: The total memory space used by the used algorithm.
-        :param exec_time: The total time it took to complete the current execution run.
+        :param avg_exec_time: The total time it took to complete the current execution run.
         :return: None
         """
         create_dirs()
@@ -31,7 +30,7 @@ class Serialize:
             'score': score,
             'turns': turns,
             'peak_mem': peak_mem,
-            'exec_time': exec_time,
+            'avg_exec_time': avg_exec_time,
         }
 
         # write the data to the JSON file in the specified path
@@ -61,5 +60,5 @@ class Serialize:
             'score': data['score'],
             'turns': data['turns'],
             'peak_mem': data['peak_mem'],
-            'exec_time': data['exec_time'],
+            'avg_exec_time': data['avg_exec_time']
         }

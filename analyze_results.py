@@ -53,7 +53,7 @@ def collect_metrics() -> Dict[str, Dict[str, float]]:
             scores.append(data.get("score", 0))
             turns.append(data.get("turns", 0))
             mem_spaces.append(data.get("mem_space", 0))
-            exec_times.append(data.get("exec_time", 0))
+            exec_times.append(data.get("avg_exec_time", 0))
             
         results[folder_name] = {
             "avg_score": mean(scores),
@@ -83,7 +83,7 @@ def plot_metric(results: Dict[str, Dict[str, float]], metric_key: str, title: st
     values: List[float] = [results[algorithm][metric_key] for algorithm in algorithms]
     
     plt.figure(figsize=(8, 5))
-    plt.bar(algorithms, values)
+    plt.bar(algorithms, values, color='#F5A623')
     plt.title(title)
     plt.xlabel("Algorithm")
     plt.ylabel(ylabel)
@@ -120,8 +120,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
-    
-        
-
         

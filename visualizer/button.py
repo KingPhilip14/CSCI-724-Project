@@ -347,8 +347,6 @@ class Button(Text):
             config.starting_mode = self.sim_mode
             config.curr_mode = config.sim_mode_list[0]
 
-            print(config.sim_mode_list)
-
             return self.execute(*args, **kwargs)
         return default
 
