@@ -168,7 +168,7 @@ class Button(Text):
                  border_radius: int = 5,
                  click_duration: int = 100,
                  position: Vector2 = Vector2(0, 0),
-                 sim_mode: SimMode = SimMode.NONE):
+                 sim_mode: SimMode = SimMode.HUMAN):
         """
         Parameters screen, text, font_size, font_name, fg_color, and position are all parameters used in
         Text. Refer to :docs:`text`.
@@ -347,8 +347,6 @@ class Button(Text):
             config.starting_mode = self.sim_mode
             config.curr_mode = config.sim_mode_list[0]
 
-            print(config.sim_mode_list)
-
             return self.execute(*args, **kwargs)
         return default
 
@@ -366,8 +364,6 @@ class Button(Text):
         :return: A list of SimMode enums
         """
         match self.sim_mode:
-            case SimMode.NONE:
-                return [SimMode.NONE] * config.TOTAL_TRIALS
             case SimMode.BFS:
                 return [SimMode.BFS] * config.TOTAL_TRIALS
             case SimMode.GBFS:
@@ -378,6 +374,9 @@ class Button(Text):
                 return [SimMode.ASTAR] * config.TOTAL_TRIALS
             case SimMode.HUMAN:
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS
+            case SimMode.ALL:
+                modes: list[SimMode] = [SimMode.HUMAN, SimMode.BFS, SimMode.GBFS, SimMode.DIJK, SimMode.ASTAR]
+                return [mode for mode in modes for _ in range(config.TOTAL_TRIALS)]
             case _:
                 # return human as failsafe
                 return [SimMode.HUMAN] * config.TOTAL_TRIALS

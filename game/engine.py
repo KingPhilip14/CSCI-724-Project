@@ -11,19 +11,20 @@ from game.snake import Snake
 
 
 class Engine:
-    def __init__(self):
+    def __init__(self, seed: int):
         self.snake = Snake()
         self.fruit = Fruit()
         self.font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
         self.score: int = len(self.snake.body) - 3
         self.is_game_over: bool = False
+        self.seed: int = seed
 
     def update(self):
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
 
-    def draw_elements(self, trial_num, turns):
+    def draw_elements(self, trial_num: int, turns: int):
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
