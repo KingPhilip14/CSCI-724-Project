@@ -6,6 +6,7 @@ from enums import SimMode
 from game.controller import update_direction
 from serialize import Serialize
 from utils import is_valid_direction
+from pathlib import Path
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -14,7 +15,7 @@ import sys
 import pygame
 from pygame.math import Vector2
 
-from config import SCREEN, CLOCK, FRAME_RATE
+from config import SCREEN, CLOCK, FRAME_RATE, TOTAL_TRIALS
 from game.engine import Engine
 from visualizer.viz_logic import start_screen_loop
 
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     start_screen_loop()
 
     # generates a list of 3 random seeds to be used during iterations
-    seeds: list[int] = [random.randint(0, 10000000), random.randint(0, 10000000), random.randint(0, 10000000)]
+    seeds: list[int] = [random.randint(0, 10000000) for _ in range(TOTAL_TRIALS)]
 
     for iteration, sim_mode in enumerate(config.sim_mode_list):
         trial_num: int = (iteration % config.TOTAL_TRIALS) + 1
