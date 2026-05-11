@@ -96,8 +96,8 @@ def plot_metric(results: Dict[str, Dict[str, float]], metric_key: str, title: st
 def generate_charts(results: Dict[str, Dict[str, float]]) -> None:
     plot_metric(results, "avg_score", "Average Score by Algorithm", "Average Score", "avg_score_chart.png")
     plot_metric(results, "avg_turns", "Average Turns by Algorithm", "Average Turns", "avg_turns_chart.png")
-    plot_metric(results, "avg_peak_mem", "Average Memory Space by Algorithm (bytes)", "Average Memory Space", "avg_peak_mem_chart.png")
-    plot_metric(results, "avg_exec_time", "Average Execution Time in Algorithm (secs)", "Average Execution Time", "avg_exec_time_chart.png")
+    plot_metric(results, "avg_peak_mem", "Average Memory Space by Algorithm", "Average Memory Space (bytes)", "avg_peak_mem_chart.png")
+    plot_metric(results, "avg_exec_time", "Average Execution Time in Algorithm", "Average Execution Time (secs)", "avg_exec_time_chart.png")
     
 def main() -> None:
     if not DATA_DIR.exists():

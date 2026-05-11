@@ -49,7 +49,6 @@ def get_next_direction(mode, engine) -> Vector2:
     return get_safe_move(engine)
 
 
-# code from GPT
 def get_safe_move(engine):
     head = engine.snake.body[0]
     current_dir = engine.snake.direction

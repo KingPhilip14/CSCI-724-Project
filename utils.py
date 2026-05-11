@@ -36,3 +36,13 @@ def add_vectors(vector_1: Vector2, vector_2: Vector2) -> Vector2:
     new_x: int = int(vector_1.x + vector_2.x)
     new_y: int = int(vector_1.y + vector_2.y)
     return Vector2(new_x, new_y)
+
+def is_valid_direction(current_dir, new_dir):
+    # prevent reversing and zero movement for the snake
+    if new_dir == Vector2(0, 0):
+        return False
+
+    if current_dir + new_dir == Vector2(0, 0):
+        return False
+
+    return True

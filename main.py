@@ -5,6 +5,8 @@ import config
 from enums import SimMode
 from game.controller import update_direction
 from serialize import Serialize
+from utils import is_valid_direction
+from pathlib import Path
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -13,7 +15,7 @@ import sys
 import pygame
 from pygame.math import Vector2
 
-from config import SCREEN, CLOCK, FRAME_RATE
+from config import SCREEN, CLOCK, FRAME_RATE, TOTAL_TRIALS
 from game.engine import Engine
 from visualizer.viz_logic import start_screen_loop
 
@@ -30,7 +32,7 @@ if __name__ == '__main__':
     start_screen_loop()
 
     # generates a list of 3 random seeds to be used during iterations
-    seeds: list[int] = [random.randint(0, 10000000), random.randint(0, 10000000), random.randint(0, 10000000)]
+    seeds: list[int] = [random.randint(0, 10000000) for _ in range(TOTAL_TRIALS)]
 
     for iteration, sim_mode in enumerate(config.sim_mode_list):
         trial_num: int = (iteration % config.TOTAL_TRIALS) + 1
@@ -64,18 +66,18 @@ if __name__ == '__main__':
 
                 # to handle human input
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        if engine.snake.direction.y != 1:
-                            engine.snake.direction = Vector2(0, -1)
-                    if event.key == pygame.K_RIGHT:
-                        if engine.snake.direction.x != -1:
-                            engine.snake.direction = Vector2(1, 0)
-                    if event.key == pygame.K_DOWN:
-                        if engine.snake.direction.y != -1:
-                            engine.snake.direction = Vector2(0, 1)
-                    if event.key == pygame.K_LEFT:
-                        if engine.snake.direction.x != 1:
-                            engine.snake.direction = Vector2(-1, 0)
+                    direction_map = {
+                        pygame.K_UP: Vector2(0, -1),
+                        pygame.K_RIGHT: Vector2(1, 0),
+                        pygame.K_DOWN: Vector2(0, 1),
+                        pygame.K_LEFT: Vector2(-1, 0),
+                    }
+
+                    if event.key in direction_map:
+                        new_dir = direction_map[event.key]
+
+                        if is_valid_direction(engine.snake.direction, new_dir):
+                            engine.snake.direction = new_dir
 
                 if sim_mode == SimMode.HUMAN:
                     if event.type == SCREEN_UPDATE:
@@ -91,24 +93,12 @@ if __name__ == '__main__':
 
                     engine.update()
 
-                # # for when the screen updates
-                # if event.type == SCREEN_UPDATE:
-                #     if sim_mode != SimMode.HUMAN:
-                #         # if using an AI algorithm, get the new direction the snake would want
-                #         memory, exec_time = update_direction(engine, sim_mode)
-                #         exec_times.append(exec_time)
-                #
-                #         if memory > peak_mem:
-                #             peak_mem = memory
-                #
-                #     engine.update()
-
             SCREEN.fill((175, 215, 70))
             engine.draw_elements(trial_num, engine.snake.turns)
             pygame.display.update()
 
-            # provides 60 FPS (or the best it can)
-            CLOCK.tick(FRAME_RATE) if sim_mode is not SimMode.HUMAN else CLOCK.tick(FRAME_RATE * 5)
+            # provides higher frame rates by multiplying by an int
+            CLOCK.tick(FRAME_RATE * 5) if sim_mode is not SimMode.HUMAN else CLOCK.tick(FRAME_RATE)
 
             if engine.is_game_over:
                 break
